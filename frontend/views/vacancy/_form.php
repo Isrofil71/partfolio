@@ -16,7 +16,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'user_id')->textInput() ?>
 
-    <?= $form->field($model, 'profession_id')->textInput() ?>
+    <?= $form->field($model, 'profession_id')->dropDownList(
+        Profession::selectList(),
+        [
+            'promt' => 'turini tanlang'
+        ] 
+    ) ?>
 
     <?= $form->field($model, 'description_uz')->textarea(['rows' => 6]) ?>
 

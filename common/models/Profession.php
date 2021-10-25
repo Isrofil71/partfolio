@@ -58,4 +58,8 @@ class Profession extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Vacancy::className(), ['profession_id' => 'id']);
     }
+
+    public static function selectList() {
+        return ArrayHelper::map(Profession::find()->all(), 'id', Yii::t('app', 'name'));
+    }
 }
