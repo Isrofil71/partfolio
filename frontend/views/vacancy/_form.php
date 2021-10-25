@@ -24,14 +24,14 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'description_oz')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'job_type_id')->textInput() ?>
-
+`
     <?= $form->field($model, 'region_id')->textInput() ?>
 
     <?= $form->field($model, 'city_id')->textInput() ?>
 
     <?= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'count_vacancy')->textInput() ?>
+    <?= $form->field($model, 'count_vacancy')->textInput() ?>   
 
     <?= $form->field($model, 'salary')->textInput(['maxlength' => true]) ?>
 
@@ -42,8 +42,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'telegram')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
-
-
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
