@@ -18,7 +18,7 @@ class ProfessionSearch extends Profession
     {
         return [
             [['id'], 'integer'],
-            [['name_uz', 'name_ru', 'name_en', 'name_cyrl'], 'safe'],
+            [['name_uz', 'name_ru', 'name_en', 'name_oz', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -59,12 +59,14 @@ class ProfessionSearch extends Profession
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'name_uz', $this->name_uz])
             ->andFilterWhere(['like', 'name_ru', $this->name_ru])
             ->andFilterWhere(['like', 'name_en', $this->name_en])
-            ->andFilterWhere(['like', 'name_cyrl', $this->name_cyrl]);
+            ->andFilterWhere(['like', 'name_oz', $this->name_oz]);
 
         return $dataProvider;
     }

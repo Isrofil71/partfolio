@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%job_type}}`.
  */
-class m211022_122005_create_job_type_table extends Migration
+class m211019_155642_create_job_type_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -17,7 +17,9 @@ class m211022_122005_create_job_type_table extends Migration
             'name_uz' => $this->string(),
             'name_ru' => $this->string(),
             'name_en' => $this->string(),
-            'name_cyrl' => $this->string(),
+            'name_oz' => $this->string(),
+            'created_at' => $this->timestamp()->defaultExpression('NOW()'),
+            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE NOW()'),
         ]);
     }
 

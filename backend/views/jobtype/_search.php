@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\ProfessionSearch */
+/* @var $model backend\models\JobTypeSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="profession-search">
+<div class="job-type-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -26,7 +26,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name_en') ?>
 
-    <?= $form->field($model, 'name_cyrl') ?>
+    <?= $form->field($model, 'name_oz') ?>
+
+    <?php // echo $form->field($model, 'created_at') ?>
+
+    <?php // echo $form->field($model, 'updated_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

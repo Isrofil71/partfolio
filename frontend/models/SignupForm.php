@@ -68,8 +68,7 @@ class SignupForm extends Model
             $this->sendEmail($user);
             return $user;
         }
-
-        return false; 
+        return false;
 
     }
 

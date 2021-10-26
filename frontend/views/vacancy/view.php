@@ -30,16 +30,41 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'company_id',
+            [
+                'attribute' => 'company_id',
+                'value' => function($model){
+                    return $model->company ? $model->company->name : null;
+                }
+            ],
             'user_id',
-            'profession_id',
-            'description_uz:ntext',
-            'description_ru:ntext',
-            'description_en:ntext',
-            'description_oz:ntext',
-            'job_type_id',
-            'region_id',
-            'city_id',
+            [
+                'attribute' => 'profession_id',
+                'value' => function($model){
+                    return $model->profession ? $model->profession->name_uz : null;
+                }
+            ],
+            'description_uz:html',
+            'description_ru:html',
+            'description_en:html',
+            'description_oz:html',
+            [
+                'attribute' => 'job_type_id',
+                'value' => function($model){
+                    return $model->jobType ? $model->jobType->name_uz : null;
+                }
+            ],
+            [
+                'attribute' => 'region_id',
+                'value' => function($model){
+                    return $model->region ? $model->region->name_uz : null;
+                }
+            ],
+            [
+                'attribute' => 'city_id',
+                'value' => function($model){
+                    return $model->city ? $model->city->name_uz : null;
+                }
+            ],
             'image',
             'count_vacancy',
             'salary',

@@ -18,13 +18,13 @@ return [
             'class' => 'mdm\admin\Module',
             'layout' => 'left-menu',
             'mainLayout' => '@app/views/layouts/main.php',
+
             'menus' => [
                 'assignment' => [
                     'label' => 'Grand Access UZ', // change label
                 ],
 //                'user' => null, // disable menu route
             ]
-
         ]
     ],
     'language' => 'en',
@@ -106,6 +106,7 @@ return [
             'site/*',
             'ajax/*',
             'admn/*',
+            'gii/*',
         ]
     ],
 ];

@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "vacancy".
@@ -39,7 +40,6 @@ use Yii;
  */
 class Vacancy extends \yii\db\ActiveRecord
 {
-    public $imageFile;
     /**
      * {@inheritdoc}
      */
@@ -55,9 +55,10 @@ class Vacancy extends \yii\db\ActiveRecord
     {
         return [
             [['company_id', 'user_id', 'profession_id', 'job_type_id', 'region_id', 'city_id', 'count_vacancy'], 'required'],
-            [['company_id', 'user_id', 'profession_id', 'job_type_id', 'region_id', 'city_id', 'count_vacancy', 'gender', 'experience', 'views', 'status'], 'integer'],
+            [['company_id', 'user_id', 'profession_id', 'job_type_id', 'region_id', 'city_id', 'gender', 'experience', 'views', 'status'], 'integer'],
             [['description_uz', 'description_ru', 'description_en', 'description_oz'], 'string'],
             [['salary'], 'number'],
+            [['count_vacancy'], 'integer', 'min' => 1],
             [['deadline', 'created_at', 'updated_at'], 'safe'],
             [['image', 'telegram', 'address'], 'string', 'max' => 255],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
@@ -149,15 +150,19 @@ class Vacancy extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-    public function upload()
-    {
-        $this->image = 'vacancy/' . $this->photo_user->baseName . '.' . $this->photo_user->extension;
 
-        if ($this->validate()) {
-            $this->photo_user->saveAs(Yii::getAlias('@frontend') . '/web/vacancy/' . $this->photo_user->baseName . '.' . $this->photo_user->extension);
-            return true;
-        } else {
-            return false;
-        }
+    /**
+     * Gets query for [[JobType]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJobType()
+    {
+        return $this->hasOne(JobType::className(), ['id' => 'job_type_id']);
     }
+    public function Profession()
+    {
+        return ArrayHelper::map(Profession::find()->all(), 'id', 'name');
+    }
+
 }

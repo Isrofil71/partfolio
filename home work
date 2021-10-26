@@ -1,0 +1,87 @@
+profession (sohalar) - (table)
+  id
+  name_uz
+  name_ru
+  name_en
+  name_cyrl
+
+job_type - (table) - (Part Time; Full Time)
+  id
+  name_uz
+  name_ru
+  name_en
+  name_cyrl
+
+
+vacancy - (table)
+  id
+  company_id (integer: default:notNULL) - (kompaniya id raqami)
+  user_id - (integer: default:notNULL) - (vakansiyani qo'shgan kompaniya xodimi)
+  profession_id - (integer: default:notNULL)
+  description_uz
+  description_ru
+  description_en
+  description_cyrl
+  job_type_id - (integer: default:NULL)
+  region_id
+  city_id
+  image - (string: default:NULL)
+  count_vacancy - (integer: defaultNotNULL, min value 1)
+  salary - (decimal(20,2): defaultValue: 0)
+  gender - (integer default:0 (1-erkak; 2-ayol))
+  experience - (integer: defaultValue NULL)
+  telegram - (string: default:NULL)
+  address - (string: default:NULL)
+  views - (integer: defaultValue: 0)
+  status - (integer: defaultValue: 1)
+  deadline - date
+  created_at - timestamt (CURRENT_TIMESTAMP)
+  updated_at - timestamt (CURRENT_TIMESTAMP ON UPDATED)
+
+=======================================
+
+Company kabinetida vakansiya berish
+
+
+  formani to'ldiradi
+
+  profession - tanlanadi
+  description - kiritiladi
+  job_type - tanlanadi
+  region_id, city_id tanlanadi
+  image - yuklanadi
+  count_vacansiya, salary - ko'rsatiladi
+  experience - kiritiladi
+  gender - tanlanadi (majburiy emas)
+  address - yoziladi
+  telegram - kiritiladi (majburiy emas)
+
+  $model = new Vacancy();
+  if() {
+    $model->deadline = date('Y-m-d', Yii::$app->params['deadline'] * 86400 + time);
+    $model->save();
+  }
+
+  1. Migratsiya yaratamiz. (Foreign keylarni biriktiramiz, masalan: CASCADE (user_id, company_id, profession_id, region_id, city_id, job_type_id))
+
+  2. gii orqali modellar yaratamiz
+
+  3. CRUD yaratamiz
+
+  4. Comany kabinetida vakansiya qo'shish degan menyusini qo'shamiz
+
+  5. Menu jadvalimizni sozlaymiz companyga mos ravishda va permissionni to'g'irlaymiz
+
+  6. Forma qismi (vakansiya kiritadigan)
+
+    6.1. Region change bo'lganda city listini tanlash kerak (o'zini viloyatiga tegishlilarni)
+    6.2. profession lar ro'yhatini select2 dan foylangan holda selectlist qilamiz
+    6.3. description da ckeditor orqali ma'lumot kiritilishi kerak.
+    6.4. job_type ni tanlash
+
+  7. Har bir select uchun modelda (o'ziga tegishli selectList (misol uchun) nomli metod yaratamiz)
+
+  8. Vacancy ni tahrirlash qismi
+
+
+#uyga_vazifa #homework

@@ -180,8 +180,7 @@ class SiteController extends Controller
 //            $user->status = 10;
             $user->role = 'company';
 
-            if ($user->validate() && $user = $user->signup()){ 
-
+            if ($user = $user->signup()){
                 if (UploadedFile::getInstance($company, 'imgLogo')){
                     $company->imgLogo = UploadedFile::getInstance($company, 'imgLogo');
                     $company->logo = 'img/company/' . $company->imgLogo->baseName . '.' . $company->imgLogo->extension;

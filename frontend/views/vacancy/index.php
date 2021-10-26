@@ -28,10 +28,20 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'company_id',
-            'user_id',
-            'profession_id',
-            'description_uz:ntext',
+            [
+                'attribute' => 'company_id',
+                'value' => function($model){
+                    return $model->company ? $model->company->name : null;
+                }
+            ],
+//            'user_id',
+            [
+                'attribute' => 'profession_id',
+                'value' => function($model){
+                    return $model->profession ? $model->profession->name_uz : null;
+                }
+            ],
+//            'description_uz:html',
             //'description_ru:ntext',
             //'description_en:ntext',
             //'description_oz:ntext',
