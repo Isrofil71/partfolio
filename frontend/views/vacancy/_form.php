@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use frontend\models\Profession;
+use frontend\models\JobType;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Vacancy */
@@ -16,7 +18,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'profession_id')->dropDownList(
         Profession::selectList(),
         [
-            'promt' => 'turini tanlang'
+            'prompt' => 'Turini tanlang'
         ] 
     ) ?>
 
@@ -28,13 +30,18 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description_oz')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'job_type_id')->textInput() ?>
+    <?= $form->field($model, 'job_type_id')->dropDownList(
+        JobType::selectList(),
+        [
+            'prompt' => 'Turini tanlang'
+        ] 
+    ) ?>
 `
     <?= $form->field($model, 'region_id')->textInput() ?>
 
     <?= $form->field($model, 'city_id')->textInput() ?>
 
-    <?= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'imageFile')->fileInput() ?>
 
     <?= $form->field($model, 'count_vacancy')->textInput() ?>   
 

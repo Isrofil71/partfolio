@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+
 /**
  * VacancyController implements the CRUD actions for Vacancy model.
  */
@@ -130,6 +131,35 @@ class VacancyController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+    public function actionUpdates()
+    {
+        $id = \Yii::$app->vacancy->getId();
+        $model = $this->findModel($id);
+
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            if (UploadedFile::getInstance($model, 'imageFile'))
+            {
+                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+                $model->image = 'vacancy/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
+
+                if ($model->upload() && $model->save()) {
+                    // file is uploaded successfully
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }else
+            {
+                if ($model->save()) {
+                    // file is uploaded successfully
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 }
 

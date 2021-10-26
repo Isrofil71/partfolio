@@ -1,8 +1,9 @@
 <?php
 
-namespace app\models;
+namespace frontend\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "profession".
@@ -57,5 +58,8 @@ class Profession extends \yii\db\ActiveRecord
     public function getVacancies()
     {
         return $this->hasMany(Vacancy::className(), ['profession_id' => 'id']);
+    }
+    public static function selectList() {
+        return ArrayHelper::map(self::find()->all(), 'id', 'name_uz');
     }
 }

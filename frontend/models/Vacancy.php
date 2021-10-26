@@ -2,7 +2,9 @@
 
 namespace app\models;
 
+
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "vacancy".
@@ -58,12 +60,14 @@ class Vacancy extends \yii\db\ActiveRecord
             [['description_uz', 'description_ru', 'description_en', 'description_oz'], 'string'],
             [['salary'], 'number'],
             [['deadline', 'created_at', 'updated_at'], 'safe'],
-            [['image', 'telegram', 'address'], 'string', 'max' => 255],
+            [['imageFile', 'telegram', 'address'], 'string', 'max' => 255],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['company_id' => 'id']],
             [['profession_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profession::className(), 'targetAttribute' => ['profession_id' => 'id']],
             [['region_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['region_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+
         ];
     }
 
@@ -84,7 +88,7 @@ class Vacancy extends \yii\db\ActiveRecord
             'job_type_id' => Yii::t('app', 'Job Type ID'),
             'region_id' => Yii::t('app', 'Region ID'),
             'city_id' => Yii::t('app', 'City ID'),
-            'image' => Yii::t('app', 'Image'),
+            'imageFile' => Yii::t('app', 'Image'),
             'count_vacancy' => Yii::t('app', 'Count Vacancy'),
             'salary' => Yii::t('app', 'Salary'),
             'gender' => Yii::t('app', 'Gender'),
@@ -147,5 +151,14 @@ class Vacancy extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+    public function upload()
+    {
+        if ($this->validate()) {
+            $this->imageFile->saveAs('vacancy/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

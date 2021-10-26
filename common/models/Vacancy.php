@@ -39,6 +39,7 @@ use Yii;
  */
 class Vacancy extends \yii\db\ActiveRecord
 {
+    public $imageFile;
     /**
      * {@inheritdoc}
      */
@@ -147,5 +148,16 @@ class Vacancy extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+    public function upload()
+    {
+        $this->image = 'vacancy/' . $this->photo_user->baseName . '.' . $this->photo_user->extension;
+
+        if ($this->validate()) {
+            $this->photo_user->saveAs(Yii::getAlias('@frontend') . '/web/vacancy/' . $this->photo_user->baseName . '.' . $this->photo_user->extension);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
