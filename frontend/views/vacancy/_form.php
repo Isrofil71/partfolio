@@ -9,6 +9,7 @@ use mihaildev\ckeditor\CKEditor;
 use yii\helpers\Html;
 use yii\jui\DatePicker;
 use yii\widgets\ActiveForm;
+use dosamigos\tinymce\TinyMce;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Vacancy */
@@ -61,37 +62,153 @@ use yii\widgets\ActiveForm;
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="descuz" role="tabpanel" aria-labelledby="descuz-tab">
-            <?= $form->field($model, 'description_uz')->widget(CKEditor::className(),[
-                'editorOptions' => [
-                    'preset' => 'basic', //разработанны стандартные настройки basic, standard, full данную возможность не обязательно использовать
-                    'inline' => false, //по умолчанию false
-                ],
-            ]); ?>
+        <div class="tab-pane fade show active" id="descuz" role="tabpanel" aria-labelledby="descuz-tab">    
+            <?= $form->field($model, 'description_uz')->widget(TinyMce::className(), [
+                'options' => ['rows' => 6],
+                'language' => 'en',
+                'clientOptions' => [
+                    'plugins' => [
+                        "advlist autolink lists link charmap print preview anchor",
+                        "searchreplace visualblocks code fullscreen",
+                        "insertdatetime media table contextmenu paste",
+                        "save image imagetools textcolor fullscreen charmap"
+                    ],
+                    'toolbar' => "save | undo redo | code styleselect | fontselect fontsizeselect hilitecolor forecolor backcolor bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image imagetools media fullscreen charmap | redbtn defaultbuttons roundbuttons numscroller anchor",
+                    'fontsize_formats' => '8pt 10pt 12pt 14pt 18pt 20pt 24pt 36pt',
+                    'image_advtab' => true,
+                    'image_class_list' => [
+                        [
+                            'value' => '',
+                            'title' => 'None',
+                        ],
+                        [
+                            'value' => 'img-circle img-no-padding img-responsive',
+                            'title' => 'Circle',
+                        ],
+                        [
+                            'value' => 'img-rounded img-responsive',
+                            'title' => 'Rounded',
+                        ],
+                        [
+                            'value' => 'img-thumbnail img-responsive',
+                            'title' => 'Thumbnail',
+                        ]
+                    ],
+                    'images_upload_url' => '/postAcceptor.php',
+                    'plugin_prevqiew_width' => 1110,
+                ]
+            ]);?>
         </div>
         <div class="tab-pane fade" id="descru" role="tabpanel" aria-labelledby="descru-tab">
-            <?= $form->field($model, 'description_ru')->widget(CKEditor::className(),[
-                'editorOptions' => [
-                    'preset' => 'basic', //разработанны стандартные настройки basic, standard, full данную возможность не обязательно использовать
-                    'inline' => false, //по умолчанию false
-                ],
-            ]); ?>
+        <?= $form->field($model, 'description_ru')->widget(TinyMce::className(), [
+                'options' => ['rows' => 6],
+                'language' => 'en',
+                'clientOptions' => [
+                    'plugins' => [
+                        "advlist autolink lists link charmap print preview anchor",
+                        "searchreplace visualblocks code fullscreen",
+                        "insertdatetime media table contextmenu paste",
+                        "save image imagetools textcolor fullscreen charmap"
+                    ],
+                    'toolbar' => "save | undo redo | code styleselect | fontselect fontsizeselect hilitecolor forecolor backcolor bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image imagetools media fullscreen charmap | redbtn defaultbuttons roundbuttons numscroller anchor",
+                    'fontsize_formats' => '8pt 10pt 12pt 14pt 18pt 20pt 24pt 36pt',
+                    'image_advtab' => true,
+                    'image_class_list' => [
+                        [
+                            'value' => '',
+                            'title' => 'None',
+                        ],
+                        [
+                            'value' => 'img-circle img-no-padding img-responsive',
+                            'title' => 'Circle',
+                        ],
+                        [
+                            'value' => 'img-rounded img-responsive',
+                            'title' => 'Rounded',
+                        ],
+                        [
+                            'value' => 'img-thumbnail img-responsive',
+                            'title' => 'Thumbnail',
+                        ]
+                    ],
+                    'images_upload_url' => '/postAcceptor.php',
+                    'plugin_prevqiew_width' => 1110,
+                ]
+            ]);?>
         </div>
         <div class="tab-pane fade" id="descen" role="tabpanel" aria-labelledby="descen-tab">
-            <?= $form->field($model, 'description_en')->widget(CKEditor::className(),[
-                'editorOptions' => [
-                    'preset' => 'basic', //разработанны стандартные настройки basic, standard, full данную возможность не обязательно использовать
-                    'inline' => false, //по умолчанию false
-                ],
-            ]); ?>
+        <?= $form->field($model, 'description_en')->widget(TinyMce::className(), [
+                'options' => ['rows' => 6],
+                'language' => 'en',
+                'clientOptions' => [
+                    'plugins' => [
+                        "advlist autolink lists link charmap print preview anchor",
+                        "searchreplace visualblocks code fullscreen",
+                        "insertdatetime media table contextmenu paste",
+                        "save image imagetools textcolor fullscreen charmap"
+                    ],
+                    'toolbar' => "save | undo redo | code styleselect | fontselect fontsizeselect hilitecolor forecolor backcolor bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image imagetools media fullscreen charmap | redbtn defaultbuttons roundbuttons numscroller anchor",
+                    'fontsize_formats' => '8pt 10pt 12pt 14pt 18pt 20pt 24pt 36pt',
+                    'image_advtab' => true,
+                    'image_class_list' => [
+                        [
+                            'value' => '',
+                            'title' => 'None',
+                        ],
+                        [
+                            'value' => 'img-circle img-no-padding img-responsive',
+                            'title' => 'Circle',
+                        ],
+                        [
+                            'value' => 'img-rounded img-responsive',
+                            'title' => 'Rounded',
+                        ],
+                        [
+                            'value' => 'img-thumbnail img-responsive',
+                            'title' => 'Thumbnail',
+                        ]
+                    ],
+                    'images_upload_url' => '/postAcceptor.php',
+                    'plugin_prevqiew_width' => 1110,
+                ]
+            ]);?>
         </div>
         <div class="tab-pane fade" id="descoz" role="tabpanel" aria-labelledby="descoz-tab">
-            <?= $form->field($model, 'description_oz')->widget(CKEditor::className(),[
-                'editorOptions' => [
-                    'preset' => 'basic', //разработанны стандартные настройки basic, standard, full данную возможность не обязательно использовать
-                    'inline' => false, //по умолчанию false
-                ],
-            ]); ?>
+        <?= $form->field($model, 'description_oz')->widget(TinyMce::className(), [
+                'options' => ['rows' => 6],
+                'language' => 'en',
+                'clientOptions' => [
+                    'plugins' => [
+                        "advlist autolink lists link charmap print preview anchor",
+                        "searchreplace visualblocks code fullscreen",
+                        "insertdatetime media table contextmenu paste",
+                        "save image imagetools textcolor fullscreen charmap"
+                    ],
+                    'toolbar' => "save | undo redo | code styleselect | fontselect fontsizeselect hilitecolor forecolor backcolor bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image imagetools media fullscreen charmap | redbtn defaultbuttons roundbuttons numscroller anchor",
+                    'fontsize_formats' => '8pt 10pt 12pt 14pt 18pt 20pt 24pt 36pt',
+                    'image_advtab' => true,
+                    'image_class_list' => [
+                        [
+                            'value' => '',
+                            'title' => 'None',
+                        ],
+                        [
+                            'value' => 'img-circle img-no-padding img-responsive',
+                            'title' => 'Circle',
+                        ],
+                        [
+                            'value' => 'img-rounded img-responsive',
+                            'title' => 'Rounded',
+                        ],
+                        [
+                            'value' => 'img-thumbnail img-responsive',
+                            'title' => 'Thumbnail',
+                        ]
+                    ],
+                    'images_upload_url' => '/postAcceptor.php',
+                    'plugin_prevqiew_width' => 1110,
+                ]
+            ]);?>
         </div>
     </div>
 

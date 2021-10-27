@@ -7,7 +7,7 @@ use yii\bootstrap4\NavBar;
 use \yii\web\YiiAsset;
 use mdm\admin\components\MenuHelper;
 
-$menuItems = [
+$menuItems = [//logout qismi
     [
         'label' => 'Logout (' . \Yii::$app->user->identity->username . ')',
         'url' => ['/site/logout'],
