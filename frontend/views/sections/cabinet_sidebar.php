@@ -16,7 +16,7 @@ $menuItems = [//logout qismi
 ];
 
 $menuItems = array_merge(
-        MenuHelper::getAssignedMenu(Yii::$app->user->id),
+        MenuHelper::getAssignedMenu(Yii::$app->user->id),//rbag menuda chaqirib beradi
         Helper::filter($menuItems)
 );
 

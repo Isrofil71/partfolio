@@ -132,6 +132,16 @@ class VacancyController extends Controller
      * @return Vacancy the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    public function actionList()
+    {
+        $searchModel = new VacancySearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        return $this->render('list', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     protected function findModel($id)
     {
         if (($model = Vacancy::findOne($id)) !== null) {
@@ -140,4 +150,5 @@ class VacancyController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+    
 }
