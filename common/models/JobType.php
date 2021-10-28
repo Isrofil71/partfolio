@@ -55,6 +55,6 @@ class JobType extends \yii\db\ActiveRecord
 
     public static function selectList() {
         $lang = 'name_' . Yii::$app->language;
-        return ArrayHelper::map(Profession::find()->all(), 'id', Yii::t('app', $lang));
+        return ArrayHelper::map(JobType::find()->all(), 'id', Yii::t('app', $lang));
     }
 }
