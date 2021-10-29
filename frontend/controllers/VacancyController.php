@@ -6,9 +6,11 @@ use common\models\Company;
 use common\models\Vacancy;
 use frontend\models\VacancySearch;
 use Yii;
+use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * VacancyController implements the CRUD actions for Vacancy model.
@@ -78,7 +80,13 @@ class VacancyController extends Controller
                 $model->company_id = $company ? $company->id : null;
                 $model->deadline = date('Y-m-d', time() + 30 * 24 * 3600);
 
-                if($model->save()) {
+                $upload_flag = true;
+                if ($model->imageFile = UploadedFile::getInstance($model, 'imageFile')) {
+                    if (!$model->upload()){
+                        $upload_flag = false;
+                    }
+                }
+                if ($model->save() && $upload_flag){
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }
@@ -132,19 +140,52 @@ class VacancyController extends Controller
      * @return Vacancy the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+
+    public function actionSingle($id)
+    {
+        $this->layout = 'main';
+
+        $query = Vacancy::find();
+
+        $count = $query->count();
+
+        $pagination = new Pagination([
+            'totalCount' => $count,
+            'pageSize' => 2
+        ]);
+
+        $vacancyes = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        return $this->render('single', [
+            'model' => $this->findModel($id),
+            'vacancyes' => $vacancyes,
+            'pagination' => $pagination,
+            'count' => $count,
+        ]);
+    }
     public function actionList()
     {
-        //$layout = 'main';
+        $this->layout = 'main';
+        $query = Vacancy::find();
+
+        $count = $query->count();//nechta malumot borliginini sanab beradi
+
+        $pagination = new Pagination([
+            'totalCount' => $count,
+            'pageSize' => 2
+        ]);
         $searchModel = new VacancySearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
         
-        $vacancy = new Vacancy();
-        var_dump($vacancy->company->id);
-        die();
+        $model = $query->offset($pagination->offset)
+        ->limit($pagination->limit)
+        ->all();
+
         return $this->render('list', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'vacancy' => $vacancy,
+            'model' => $model,
+            'pagination' => $pagination
         ]);
     }
     protected function findModel($id)
@@ -155,5 +196,4 @@ class VacancyController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
-    
 }

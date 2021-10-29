@@ -1,99 +1,83 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <title>JobBoard &mdash; Website Template by Colorlib</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    
-    <link rel="stylesheet" href="/jobboard/css/custom-bs.css">
-    <link rel="stylesheet" href="/jobboard/css/jquery.fancybox.min.css">
-    <link rel="stylesheet" href="/jobboard/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="/jobboard/fonts/icomoon/style.css">
-    <link rel="stylesheet" href="/jobboard/fonts/line-icons/style.css">
-    <link rel="stylesheet" href="/jobboard/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="/jobboard/css/animate.min.css">
+<?php
 
-    
-    <link rel="stylesheet" href="/jobboard/css/style.css">    
-  </head>
-  <body id="top">
+use yii\bootstrap4\LinkPager;
+use yii\data\Pagination;
+use yii\helpers\Html;
+use yii\grid\GridView;
+use yii\widgets\Pjax;
+/* @var $this yii\web\View */
+/* @var $searchModel frontend\models\VacancySearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $pagination Pagination */
 
-  <!-- <div id="overlayer"></div>
-  <div class="loader">
-    <div class="spinner-border text-primary" role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div> -->
-    
+$this->title = Yii::t('app', 'Vacancies');
+$this->params['breadcrumbs'][] = $this->title;
+$name = 'name_' . Yii::$app->language;
+?>
+<div class="vacancy-index">
 
-  <div class="site-wrap">
+    <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="site-mobile-menu site-navbar-target">
-      <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close mt-3">
-          <span class="icon-close2 js-menu-toggle"></span>
-        </div>
-      </div>
-      <div class="site-mobile-menu-body"></div>
-    </div> 
-    
     <section class="site-section" id="next">
-      <div class="container">
+        <div class="container">
 
-        <div class="row mb-5 justify-content-center">
-          <div class="col-md-7 text-center">
-            <h2 class="section-title mb-2">22,392 Related Jobs</h2>
-          </div>
+            <div class="row mb-5 justify-content-center">
+                <div class="col-md-7 text-center">
+                    <h2 class="section-title mb-2"><?= $pagination->totalCount ?> Related Jobs</h2>
+                </div>
+            </div>
+
+            <ul class="job-listings mb-5">
+
+    <?php foreach ($model as $item): ?>
+        <?php $sheet[] = $item ?>
+
+        <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+                        <a href="/vacancy/single?id=<?= $item->id ?>"></a><!-- bu single lingni beradi -->
+                        <div class="job-listing-logo">
+                            <img src="<?= $item->image ? '/'.$item->image : 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_17cb871a4aa%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_17cb871a4aa%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.390625%22%20y%3D%22104.5%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E' ?>" alt="Image" class="img-fluid">
+                        </div>
+
+                        <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+                            <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+                                <h2><?= $item->profession ? $item->profession->$name : 'Kiritilmagan' ?></h2>
+                                <strong><?= $item->company ? $item->company->name : 'Kiritilmagan' ?></strong>
+                            </div>
+                            <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
+                                <span class="icon-room"></span> <?= $item->address ? $item->address : 'Kiritilmagan' ?>
+                            </div>
+                            <div class="job-listing-meta">
+                                <span class="badge badge-danger"><?= $item->jobType ? $item->jobType->$name : 'Kiritilmagan' ?></span>
+                            </div>
+                        </div>
+
+                    </li>
+
+    <?php endforeach ?>
+
+            </ul>
+
+            <div class="row pagination-wrap">
+                <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
+                    <span>Showing <?= $pagination->page ?> 1-7 Of <?= $pagination->totalCount ?> Jobs</span>
+                </div>
+
+
+                <div class="col-md-6 text-center text-md-right">
+                    <?= LinkPager::widget([
+                        'pagination' => $pagination,
+                        'options' => ['class' => 'custom-pagination ml-auto d-flex align-items-center justify-content-end nav'],
+                        'pageCssClass' => 'mr-2',
+                        'prevPageLabel' => Yii::t('app', 'Prev'),
+                        'nextPageLabel' => Yii::t('app', 'Next'),
+                        'prevPageCssClass' => 'prev ',
+                        'nextPageCssClass' => 'next ',
+                        'linkOptions' => ['class' => 'prev']
+                    ]) ?>
+                </div>
+            </div>
+
         </div>
-        
-       
-        <ul class="job-listings mb-5">
-            <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-                <a href="job-single.html"></a>
-                <div class="job-listing-logo">
-                    <img src="images/job_logo_1.jpg" alt="Image" class="img-fluid">
-                </div>
-
-                <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-                    <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                      
-                        <strong><?= $vacancy->company_id ?></strong>
-                    </div>
-                    <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                        <span class="icon-room"></span> <?=$vacancy->region ? $vacancy->region->name_uz : null;?>
-                    </div>
-                    <div class="job-listing-meta">
-                        <span class="badge badge-danger"><?=$vacancy->jobType ? $vacancy->jobType->name_uz : null;?></span>
-                    </div>
-                </div>
-                
-            </li>    
-        </ul>
-      </div>
     </section>
-  </div>
-        
 
-
-    
-    <script src="/jobboard/js/jquery.min.js"></script>
-    <script src="/jobboard/js/bootstrap.bundle.min.js"></script>
-    <script src="/jobboard/js/isotope.pkgd.min.js"></script>
-    <script src="/jobboard/js/stickyfill.min.js"></script>
-    <script src="/jobboard/js/jquery.fancybox.min.js"></script>
-    <script src="/jobboard/js/jquery.easing.1.3.js"></script>
-    
-    <script src="/jobboard/js/jquery.waypoints.min.js"></script>
-    <script src="/jobboard/js/jquery.animateNumber.min.js"></script>
-    <script src="/jobboard/js/owl.carousel.min.js"></script>
-    
-    <script src="/jobboard/js/bootstrap-select.min.js"></script>
-    
-    <script src="/jobboard/js/custom.js"></script>
-
-     
-  </body>
-</html>
-
-
+</div>
