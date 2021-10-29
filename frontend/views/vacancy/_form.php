@@ -4,12 +4,13 @@ use common\models\City;
 use common\models\JobType;
 use common\models\Profession;
 use common\models\Region;
+use dosamigos\tinymce\TinyMce;
 use kartik\select2\Select2;
 use mihaildev\ckeditor\CKEditor;
 use yii\helpers\Html;
 use yii\jui\DatePicker;
 use yii\widgets\ActiveForm;
-use dosamigos\tinymce\TinyMce;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Vacancy */
@@ -18,7 +19,7 @@ use dosamigos\tinymce\TinyMce;
 
 <div class="vacancy-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
 <!--    --><?//= $form->field($model, 'company_id')->textInput() ?>
 <!---->
@@ -240,7 +241,7 @@ use dosamigos\tinymce\TinyMce;
     </div>
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'imageFile')->fileInput() ?>
         </div>
         <div class="col-md-4">
             <?= $form->field($model, 'count_vacancy')->textInput() ?>
@@ -251,7 +252,15 @@ use dosamigos\tinymce\TinyMce;
     </div>
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'gender')->textInput() ?>
+            <?= $form->field($model, 'gender')->dropDownList(
+                    [
+                        1 => 'Erkak',
+                        2 => 'Ayol'
+                    ],
+                    [
+                        'prompt' => 'Jinsi ...'
+                    ]
+            ) ?>
         </div>
         <div class="col-md-4">
             <?= $form->field($model, 'experience')->textInput() ?>
@@ -265,6 +274,9 @@ use dosamigos\tinymce\TinyMce;
             [
                 1 => 'Active',
                 2 => 'Inactive'
+            ],
+            [
+                'prompt' => 'Status ...'
             ]
     ) ?>
 

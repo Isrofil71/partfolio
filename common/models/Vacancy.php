@@ -4,6 +4,8 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\base\Model;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "vacancy".
@@ -51,6 +53,8 @@ class Vacancy extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public $imageFile;
+
     public function rules()
     {
         return [
@@ -66,6 +70,7 @@ class Vacancy extends \yii\db\ActiveRecord
             [['profession_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profession::className(), 'targetAttribute' => ['profession_id' => 'id']],
             [['region_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['region_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -163,6 +168,17 @@ class Vacancy extends \yii\db\ActiveRecord
     public function Profession()
     {
         return ArrayHelper::map(Profession::find()->all(), 'id', 'name');
+    }
+    public function upload()
+    {
+        $this->image = 'img/vacancy/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+
+        if ($this->validate()) {
+            $this->imageFile->saveAs(Yii::getAlias('@frontend') . '/web/img/vacancy/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
