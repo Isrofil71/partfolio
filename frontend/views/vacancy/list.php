@@ -1,4 +1,4 @@
-<!-- <!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <title>JobBoard &mdash; Website Template by Colorlib</title>
@@ -19,12 +19,12 @@
   </head>
   <body id="top">
 
-  <div id="overlayer"></div>
+  <!-- <div id="overlayer"></div>
   <div class="loader">
     <div class="spinner-border text-primary" role="status">
       <span class="sr-only">Loading...</span>
     </div>
-  </div>
+  </div> -->
     
 
   <div class="site-wrap">
@@ -57,13 +57,14 @@
 
                 <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
                     <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                        <strong><?=$model->company ? $model->company->name : null;?></strong>
+                      
+                        <strong><?= $vacancy->company_id ?></strong>
                     </div>
                     <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                        <span class="icon-room"></span> <?=$model->region ? $model->region->name_uz : null;?>
+                        <span class="icon-room"></span> <?=$vacancy->region ? $vacancy->region->name_uz : null;?>
                     </div>
                     <div class="job-listing-meta">
-                        <span class="badge badge-danger"><?=$model->jobType ? $model->jobType->name_uz : null;?></span>
+                        <span class="badge badge-danger"><?=$vacancy->jobType ? $vacancy->jobType->name_uz : null;?></span>
                     </div>
                 </div>
                 
@@ -93,6 +94,6 @@
 
      
   </body>
-</html> -->
+</html>
 
 

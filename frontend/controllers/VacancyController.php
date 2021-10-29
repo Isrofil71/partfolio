@@ -134,12 +134,17 @@ class VacancyController extends Controller
      */
     public function actionList()
     {
+        //$layout = 'main';
         $searchModel = new VacancySearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-
+        
+        $vacancy = new Vacancy();
+        var_dump($vacancy->company->id);
+        die();
         return $this->render('list', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'vacancy' => $vacancy,
         ]);
     }
     protected function findModel($id)
