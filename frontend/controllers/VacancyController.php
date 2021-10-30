@@ -89,6 +89,7 @@ class VacancyController extends Controller
                 if ($model->save() && $upload_flag){
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
+                var_dump($model->errors);
             }
         } else {
             $model->loadDefaultValues();
