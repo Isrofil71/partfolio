@@ -51,6 +51,7 @@
         "mdmsoft/yii2-admin": "2.x-dev",
         "yiisoft/yii2-swiftmailer": "*",
         "mihaildev/yii2-ckeditor": "*",
-        "2amigos/yii2-tinymce-widget": "~1.1"
+        "2amigos/yii2-tinymce-widget": "~1.1",
+        "wbraganca/yii2-dynamicform": "*"
     }
 }

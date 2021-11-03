@@ -3,16 +3,24 @@
 
 namespace frontend\controllers;
 
-
 use common\models\Company;
+use common\models\LaborActivity;
+use common\models\Language;
 use common\models\Region;
 use common\models\User;
 use common\models\Worker;
 use common\models\City;
+use common\models\WorkerLanguage;
+use frontend\models\MyHistory;
 use frontend\models\SignupForm;
+use kartik\mpdf\Pdf;
 use Yii;
+use frontend\models\Model;
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 class DashboardController extends Controller
@@ -20,7 +28,7 @@ class DashboardController extends Controller
     public $layout = 'cabinet';
 
     public function actionWorker(){
-
+        
         $model = $this->findWorker(Yii::$app->user->identity->getId());
         $user = User::findOne($model->userId);
         if ($user->regionId && $user->cityId){
@@ -39,26 +47,87 @@ class DashboardController extends Controller
             return $this->redirect('worker-create');
         }
 
+        $model = $this->findWorker(Yii::$app->user->identity->getId());
+        $modelsLanguage = $model->languages;
+        $modelsLaborActivity = $model->laborActivity;
+
         if (Yii::$app->request->post()){
             $model = Worker::findOne(['userId' => Yii::$app->user->identity->getId()]);
             $model->scenario = Worker::SCENARIO_CREATE;
             $model->load(Yii::$app->request->post());
 
-            $upload_flag = true;
-            if ($model->photo_user = UploadedFile::getInstance($model, 'photo_user')) {
-                if (!$model->upload()){
-                    $upload_flag = false;
+            $oldlangIDs = ArrayHelper::map($modelsLanguage, 'id', 'id');
+            $modelsLanguage = Model::createMultiple(WorkerLanguage::classname(), $modelsLanguage);
+            Model::loadMultiple($modelsLanguage, Yii::$app->request->post());
+            $deletedlangIDs = array_diff($oldlangIDs, array_filter(ArrayHelper::map($modelsLanguage, 'id', 'id')));
+
+            $oldlaborIDs = ArrayHelper::map($modelsLaborActivity, 'id', 'id');
+            $modelsLaborActivity = Model::createMultiple(LaborActivity::classname(), $modelsLaborActivity);
+            Model::loadMultiple($modelsLaborActivity, Yii::$app->request->post());
+            $deletedlaborIDs = array_diff($oldlaborIDs, array_filter(ArrayHelper::map($modelsLaborActivity, 'id', 'id')));
+
+            // ajax validation
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ArrayHelper::merge(
+                    ActiveForm::validateMultiple($modelsLaborActivity),
+                    ActiveForm::validateMultiple($modelsLanguage),
+                    ActiveForm::validate($model)
+                );
+            }
+
+            // validate all models
+            $valid = $model->validate();
+            $valid = Model::validateMultiple($modelsLanguage) && Model::validateMultiple($modelsLaborActivity) && $valid;
+
+
+            if ($valid) {
+                $upload_flag = true;
+                if ($model->photo_user = UploadedFile::getInstance($model, 'photo_user')) {
+                    if (!$model->upload()){
+                        $upload_flag = false;
+                    }
+                }
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $model->save(false) && $upload_flag) {
+
+                        $user = User::findOne(Yii::$app->user->identity->getId());
+                        $user->regionId = $model->regionId;
+                        $user->cityId = $model->cityId;
+                        $user->save();
+
+                        if (! empty($deletedlangIDs)) {
+                            WorkerLanguage::deleteAll(['id' => $deletedlangIDs]);
+                        }
+                        foreach ($modelsLanguage as $modelLanguage) {
+                            $modelLanguage->worker_id = $model->id;
+                            if (! ($flag = $modelLanguage->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+
+                        if (! empty($deletedlaborIDs)) {
+                            LaborActivity::deleteAll(['id' => $deletedlaborIDs]);
+                        }
+                        foreach ($modelsLaborActivity as $modelLaborActivity) {
+                            $modelLaborActivity->worker_id = $model->id;
+                            if (! ($flag = $modelLaborActivity->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect('/dashboard/worker');
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
                 }
             }
-            if ($model->save() && $upload_flag){
 
-                $user = User::findOne(Yii::$app->user->identity->getId());
-                $user->regionId = $model->regionId;
-                $user->cityId = $model->cityId;
-                $user->save();
-
-                return $this->redirect('/dashboard/worker');
-            }
         }
 
         $model = Worker::findOne(['userId' => Yii::$app->user->identity->getId()]);
@@ -67,7 +136,9 @@ class DashboardController extends Controller
         $model->cityId = $user->cityId;
 
         return $this->render('edit-worker', [
-            'model' => $model
+            'model' => $model,
+            'modelsLaborActivity' => (empty($modelsLaborActivity)) ? [new LaborActivity] : $modelsLaborActivity,
+            'modelsLanguage' => (empty($modelsLanguage)) ? [new Language] : $modelsLanguage,
             ]
         );
     }
@@ -79,30 +150,75 @@ class DashboardController extends Controller
         }
 
         $model = new Worker();
+        $modelsLanguage = [new WorkerLanguage()];
+        $modelsLaborActivity = [new LaborActivity()];
 
         $model->scenario = Worker::SCENARIO_CREATE;
         $model->userId = Yii::$app->user->identity->getId();
 
         if ($model->load(Yii::$app->request->post()))
         {
-            $upload_flag = true;
-            if ($model->photo_user = UploadedFile::getInstance($model, 'photo_user')) {
-                if (!$model->upload()){
-                    $upload_flag = false;
+
+            $modelsLanguage = Model::createMultiple(WorkerLanguage::classname());
+            Model::loadMultiple($modelsLanguage, Yii::$app->request->post());
+
+            $modelsLaborActivity = Model::createMultiple(LaborActivity::classname());
+            Model::loadMultiple($modelsLaborActivity, Yii::$app->request->post());
+
+            // validate all models
+            $valid = $model->validate();
+            $valid = Model::validateMultiple($modelsLanguage) && Model::validateMultiple($modelsLaborActivity) && $valid;
+
+            if ($valid) {
+                $upload_flag = true;
+                if ($model->photo_user = UploadedFile::getInstance($model, 'photo_user')) {
+                    if (!$model->upload()){
+                        $upload_flag = false;
+                    }
+                }
+
+                $transaction = \Yii::$app->db->beginTransaction();
+
+                try {
+                    if ($flag = $model->save(false) && $upload_flag) {
+
+                        $user = User::findOne(Yii::$app->user->identity->getId());
+                        $user->regionId = $model->regionId;
+                        $user->cityId = $model->cityId;
+                        $user->save(false);
+
+                        foreach ($modelsLanguage as $modelLanguage) {
+                            $modelLanguage->worker_id = $model->id;
+                            if (! ($flag = $modelLanguage->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+
+                        foreach ($modelsLaborActivity as $modelLaborActivity) {
+                            $modelLaborActivity->worker_id = $model->id;
+                            if (! ($flag = $modelLaborActivity->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect('/dashboard/worker');
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
                 }
             }
-            if ($model->save() && $upload_flag){
-                $user = User::findOne(Yii::$app->user->identity->getId());
-                $user->regionId = $model->regionId;
-                $user->cityId = $model->cityId;
-                $user->save();
-            }
 
-            return $this->redirect('/dashboard/worker');
         }
 
         return $this->render('worker-create', [
-            'model' => $model
+            'model' => $model,
+            'modelsLanguage' => (empty($modelsLanguage)) ? [new WorkerLanguage()] : $modelsLanguage,
+            'modelsLaborActivity' => (empty($modelsLaborActivity)) ? [new LaborActivity()] : $modelsLaborActivity
         ]);
     }
 

@@ -255,7 +255,8 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'gender')->dropDownList(
                     [
                         1 => 'Erkak',
-                        2 => 'Ayol'
+                        2 => 'Ayol',
+                        3 => 'Ahamyatsiz'
                     ],
                     [
                         'prompt' => 'Jinsi ...'
