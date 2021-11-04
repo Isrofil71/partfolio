@@ -3,6 +3,7 @@
 
 namespace frontend\controllers;
 
+
 use common\models\Company;
 use common\models\LaborActivity;
 use common\models\Language;
@@ -27,17 +28,76 @@ class DashboardController extends Controller
 {
     public $layout = 'cabinet';
 
-    public function actionWorker(){
-        
+    public function actionCv(){
+
         $model = $this->findWorker(Yii::$app->user->identity->getId());
         $user = User::findOne($model->userId);
+
+        if ($user->regionId && $user->cityId){
+            $model->regionId = $user->regionId;
+            $model->cityId = $user->cityId;
+        }
+
+        return $this->render('cv', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionCvDownload($id = 3) {
+        $model = $this->findWorker(Yii::$app->user->identity->getId());
+        $user = User::findOne($model->userId);
+
+        if ($user->regionId && $user->cityId){
+            $model->regionId = $user->regionId;
+            $model->cityId = $user->cityId;
+        }
+        // get your HTML raw content without any layouts or scripts
+        $content = $this->renderPartial('cv', ['model' => $model]);
+
+        // setup kartik\mpdf\Pdf component
+        $pdf = new Pdf([
+            // set to use core fonts only
+            'mode' => Pdf::MODE_CORE,
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4,
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER,
+            // your html content input
+            'content' => $content,
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}',
+            // set mPDF properties on the fly
+            'options' => ['title' => 'Krajee Report Title'],
+            // call mPDF methods on the fly
+            'methods' => [
+                'SetHeader'=>['CV EXPORT'],
+                'SetFooter'=>['{PAGENO}'],
+            ],
+            'filename' => 'cv_export_qilish.pdf',
+        ]);
+
+        // return the pdf output as per the destination setting
+        return $pdf->render();
+    }
+
+
+    public function actionWorker(){
+
+        $model = $this->findWorker(Yii::$app->user->identity->getId());
+        $user = User::findOne($model->userId);
+
         if ($user->regionId && $user->cityId){
             $model->regionId = $user->regionId;
             $model->cityId = $user->cityId;
         }
 
         return $this->render('worker', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 

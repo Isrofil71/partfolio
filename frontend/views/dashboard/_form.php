@@ -2,16 +2,12 @@
 
 use common\models\City;
 use common\models\Nationality;
+use common\models\Profession;
 use common\models\Region;
+use wbraganca\dynamicform\DynamicFormWidget;
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
 use yii\jui\DatePicker;
-use yii\base\Model;
-use wbraganca\dynamicform\DynamicFormWidget;
-
-/* @var $this yii\web\View */
-/* @var $modelCustomer app\modules\yii2extensions\models\Customer */
-/* @var $modelsAddress app\modules\yii2extensions\models\Address */
 
 $js = '
 jQuery(".dynamicform_wrapper_language").on("afterInsert", function(e, item) {
@@ -46,6 +42,7 @@ $this->registerJs($js);
     <div class="col-lg-12 mb-5">
 
         <?php $form = ActiveForm::begin([
+//            'id' => 'form-signup',
             'id' => 'dynamic-form',
             'options' => [
                 'class' => 'p-4 border rounded',
@@ -133,13 +130,13 @@ $this->registerJs($js);
 
         <div class="row form-group">
             <div class="col-md-6 mb-3 mb-md-0">
-                    <?= $form->field($model, 'hobbie')->textInput() ?>
+                <?= $form->field($model, 'hobbie')->textInput() ?>
             </div>
             <div class="col-md-6 mb-3 mb-md-0">
                 <?= $form->field($model, 'profession_id')->dropDownList(
                     Profession::selectList(),
                     [
-                        'prompt' => 'Sohangiz ...'  
+                        'prompt' => 'Sohangiz ...'
                     ]
                 ) ?>
             </div>
@@ -312,10 +309,8 @@ $this->registerJs($js);
             </div>
         </div>
         <div class="row form-group">
-
             <div class="col-md-12">
-
-                <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn px-4 btn-primary text-white btn-block', 'name' => 'signup-button']) ?>
+                <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => 'btn px-4 btn-primary text-white btn-block', 'name' => 'signup-button']) ?>
             </div>
         </div>
 
