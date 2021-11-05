@@ -140,7 +140,7 @@ class DashboardController extends Controller
             $valid = $model->validate();
             $valid = Model::validateMultiple($modelsLanguage) && Model::validateMultiple($modelsLaborActivity) && $valid;
 
-
+            
             if ($valid) {
                 $upload_flag = true;
                 if ($model->photo_user = UploadedFile::getInstance($model, 'photo_user')) {
@@ -180,8 +180,7 @@ class DashboardController extends Controller
                             }
                         }
                     }
-                    var_dump($flag);
-                    die();
+
                     if ($flag) {
                         $transaction->commit();
                         return $this->redirect('/dashboard/worker');
@@ -207,7 +206,7 @@ class DashboardController extends Controller
     }
 
     public function actionWorkerCreate(){
-
+        
         if ($this->findWorker(Yii::$app->user->identity->getId())){
             return $this->redirect('edit-worker');
         }
@@ -230,8 +229,9 @@ class DashboardController extends Controller
 
             // validate all models
             $valid = $model->validate();
+            
             $valid = Model::validateMultiple($modelsLanguage) && Model::validateMultiple($modelsLaborActivity) && $valid;
-
+           
             if ($valid) {
                 $upload_flag = true;
                 if ($model->photo_user = UploadedFile::getInstance($model, 'photo_user')) {

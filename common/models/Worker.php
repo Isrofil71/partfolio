@@ -5,6 +5,9 @@ namespace common\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use common\models\Nationality;
+use common\models\Pofession;
+use common\models\WorkerLanguage;
+
 
 /**
  * This is the model class for table "worker".
@@ -21,6 +24,8 @@ use common\models\Nationality;
  * @property string|null $photo
  * @property string|null $created_at
  * @property string|null $updated_at
+ * @property string|null $hobbie
+ * @property int|null $profession_id
  */
 class Worker extends \yii\db\ActiveRecord
 {
@@ -118,9 +123,21 @@ class Worker extends \yii\db\ActiveRecord
         }
     }
 
-    public function Nationality()
+    public function getNationality()
     {
-        return ArrayHelper::map(Nationality::find()->all(), 'id', 'name');
+        return $this->hasMany(Nationality::className(), ['id' => 'nationality_id']);
+    }
+    public function getProfession()
+    {
+        return $this->hasMany(Profession::className(), ['id' => 'profession_id']);
+    }
+    public function getLanguages()
+    {
+        return $this->hasMany(WorkerLanguage::className(), ['worker_id' => 'id']);
+    }
+    public function getLaborActivity()
+    {
+        return $this->hasMany(LaborActivity::className(), ['worker_id' => 'id']);
     }
 
     public function getRegion() //Regionni qaniqlash

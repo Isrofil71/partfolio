@@ -136,7 +136,7 @@ $this->registerJs($js);
                 <?= $form->field($model, 'profession_id')->dropDownList(
                     Profession::selectList(),
                     [
-                        'prompt' => 'Sohangiz ...'
+                        'prompt' => 'Sohangiz ...'  
                     ]
                 ) ?>
             </div>

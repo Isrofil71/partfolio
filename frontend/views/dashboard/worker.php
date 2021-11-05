@@ -5,8 +5,6 @@ use yii\widgets\DetailView;
 
 $name = 'name_' . Yii::$app->language;
 echo "<h3>Worker ma'lumotlari</h3>";
-var_dump($model->nationality);
-die();
 echo DetailView::widget([
     'model' => $model,
     'attributes' => [
@@ -17,7 +15,7 @@ echo DetailView::widget([
         'gender',
         [
             'attribute' => 'nationality_id',
-            'value' => $model->nationality->name
+            'value' => $model->nationality ? $model->nationality->name : " "
         ],
         [
             'attribute' => 'region_id',
