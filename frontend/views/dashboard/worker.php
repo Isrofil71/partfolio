@@ -74,4 +74,3 @@ echo DetailView::widget([
 
 
 <?= Html::a( Yii::t('app', 'Edit'), '/dashboard/edit-worker', ['class' => 'btn btn-success px-5']) ?>
-
