@@ -150,13 +150,14 @@ class DashboardController extends Controller
                 }
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
-                    if ($flag = $model->save(false) && $upload_flag) {
 
+                    if ($flag = $model->save(false) && $upload_flag) {
+                        
                         $user = User::findOne(Yii::$app->user->identity->getId());
                         $user->regionId = $model->regionId;
                         $user->cityId = $model->cityId;
                         $user->save();
-
+                        
                         if (! empty($deletedlangIDs)) {
                             WorkerLanguage::deleteAll(['id' => $deletedlangIDs]);
                         }
@@ -179,6 +180,8 @@ class DashboardController extends Controller
                             }
                         }
                     }
+                    var_dump($flag);
+                    die();
                     if ($flag) {
                         $transaction->commit();
                         return $this->redirect('/dashboard/worker');
@@ -241,7 +244,7 @@ class DashboardController extends Controller
 
                 try {
                     if ($flag = $model->save(false) && $upload_flag) {
-
+                        
                         $user = User::findOne(Yii::$app->user->identity->getId());
                         $user->regionId = $model->regionId;
                         $user->cityId = $model->cityId;

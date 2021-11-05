@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use common\models\Nationality;
 
 /**
  * This is the model class for table "worker".

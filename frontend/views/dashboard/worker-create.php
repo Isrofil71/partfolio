@@ -41,7 +41,9 @@ use yii\helpers\ArrayHelper;
             </div>
         </div>
         <?= $this->render('_form', [
-            'model' => $model
+            'model' => $model,
+            'modelsLanguage' => (empty($modelsLanguage)) ? [new WorkerLanguage()] : $modelsLanguage,
+            'modelsLaborActivity' => (empty($modelsLaborActivity)) ? [new LaborActivity()] : $modelsLaborActivity
         ])?>
     </div>
 </div>
