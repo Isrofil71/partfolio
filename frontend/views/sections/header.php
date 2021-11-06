@@ -38,7 +38,7 @@ use yii\bootstrap4\Nav;
                         'url' => ['/site/contact']
                     ],
                     [
-                        'label' => Yii::t('app', 'Vacancies'),
+                        'label' => Yii::t('app', 'Vacancyes'),
                         'url' => ['/vacancy/list']
                     ]
                 ];

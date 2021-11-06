@@ -4,10 +4,6 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use common\models\Nationality;
-use common\models\Pofession;
-use common\models\WorkerLanguage;
-
 
 /**
  * This is the model class for table "worker".
@@ -25,7 +21,6 @@ use common\models\WorkerLanguage;
  * @property string|null $created_at
  * @property string|null $updated_at
  * @property string|null $hobbie
- * @property int|null $profession_id
  */
 class Worker extends \yii\db\ActiveRecord
 {
@@ -57,7 +52,7 @@ class Worker extends \yii\db\ActiveRecord
             [['birthdate', 'created_at', 'updated_at'], 'safe'],
             [['password', 'username', 'email'], 'required'],
             [['gender', 'nationality_id', 'userId', 'regionId', 'cityId'], 'integer'],
-            [['firstname', 'lastname', 'patronymic', 'address', 'phone', 'photo'], 'string', 'max' => 255],
+            [['firstname', 'lastname', 'patronymic', 'address', 'phone', 'photo', 'hobbie'], 'string', 'max' => 255],
             [['photo_user'], 'file'],
         ];
     }
@@ -69,7 +64,7 @@ class Worker extends \yii\db\ActiveRecord
             self::SCENARIO_CREATE => [
                 'firstname', 'lastname', 'patronymic', 'address', 'phone',
                 'photo', 'photo_user', 'gender', 'nationality_id', 'userId',
-                'regionId', 'cityId', 'birthdate'],
+                'regionId', 'cityId', 'birthdate', 'hobbie', 'profession_id'],
         ];
     }
 
@@ -123,20 +118,17 @@ class Worker extends \yii\db\ActiveRecord
         }
     }
 
-    public function getNationality()
+    public function Nationality()
     {
-        return $this->hasMany(Nationality::className(), ['id' => 'nationality_id']);
+        return ArrayHelper::map(Nationality::find()->all(), 'id', 'name');
     }
-    public function getProfession()
-    {
-        return $this->hasMany(Profession::className(), ['id' => 'profession_id']);
-    }
-    public function getLanguages()
+
+    public function getLanguages() //Languagesni qaniqlash
     {
         return $this->hasMany(WorkerLanguage::className(), ['worker_id' => 'id']);
     }
-    public function getLaborActivity()
-    {
+
+    public function getLaborActivity(){
         return $this->hasMany(LaborActivity::className(), ['worker_id' => 'id']);
     }
 
@@ -148,5 +140,15 @@ class Worker extends \yii\db\ActiveRecord
     public function getCity() //Cityni qaniqlash
     {
         return $this->hasOne(City::className(), ['id' => 'cityId']);
+    }
+
+    public function getNationality() //Millatini qaniqlash
+    {
+        return $this->hasOne(Nationality::className(), ['id' => 'nationality_id']);
+    }
+
+    public function getProfession() //Professionni qaniqlash
+    {
+        return $this->hasOne(Profession::className(), ['id' => 'profession_id']);
     }
 }

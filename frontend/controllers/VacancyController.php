@@ -89,7 +89,6 @@ class VacancyController extends Controller
                 if ($model->save() && $upload_flag){
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
-                var_dump($model->errors);
             }
         } else {
             $model->loadDefaultValues();
@@ -120,27 +119,27 @@ class VacancyController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing Vacancy model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
+    public function actionList()
     {
-        $this->findModel($id)->delete();
+        $this->layout = 'main';
+        $query = Vacancy::find();
 
-        return $this->redirect(['index']);
+        $count = $query->count();
+
+        $pagination = new Pagination([
+            'totalCount' => $count,
+            'pageSize' => 2
+        ]);
+
+        $model = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        return $this->render('list', [
+            'model' => $model,
+            'pagination' => $pagination
+        ]);
     }
-
-    /**
-     * Finds the Vacancy model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return Vacancy the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
 
     public function actionSingle($id)
     {
@@ -166,29 +165,28 @@ class VacancyController extends Controller
             'count' => $count,
         ]);
     }
-    public function actionList()
+
+    /**
+     * Deletes an existing Vacancy model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param int $id ID
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDelete($id)
     {
-        $this->layout = 'main';
-        $query = Vacancy::find();
+        $this->findModel($id)->delete();
 
-        $count = $query->count();//nechta malumot borliginini sanab beradi
-
-        $pagination = new Pagination([
-            'totalCount' => $count,
-            'pageSize' => 2
-        ]);
-        $searchModel = new VacancySearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-        
-        $model = $query->offset($pagination->offset)
-        ->limit($pagination->limit)
-        ->all();
-
-        return $this->render('list', [
-            'model' => $model,
-            'pagination' => $pagination
-        ]);
+        return $this->redirect(['index']);
     }
+
+    /**
+     * Finds the Vacancy model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param int $id ID
+     * @return Vacancy the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
     protected function findModel($id)
     {
         if (($model = Vacancy::findOne($id)) !== null) {

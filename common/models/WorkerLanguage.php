@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property int|null $worker_id
  * @property int|null $language_id
- * @property string|null $other_lang
+ * @property int|null $other_lang
  * @property int|null $rate
  *
  * @property Language $language
@@ -29,13 +29,13 @@ class WorkerLanguage extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules() 
     {
         return [
-            [['worker_id', 'language_id', 'rate'], 'integer'],
-            [['other_lang'], 'string', 'max' => 255],
-            // [['language_id'], 'exist', 'skipOnError' => true, 'targetClass' => Language::className(), 'targetAttribute' => ['language_id' => 'id']],
-            // [['worker_id'], 'exist', 'skipOnError' => true, 'targetClass' => Worker::className(), 'targetAttribute' => ['worker_id' => 'id']],
+            [['worker_id', 'language_id',  'rate'], 'integer'],
+            [['language_id'], 'exist', 'skipOnError' => true, 'targetClass' => Language::className(), 'targetAttribute' => ['language_id' => 'id']],
+            [['worker_id'], 'exist', 'skipOnError' => true, 'targetClass' => Worker::className(), 'targetAttribute' => ['worker_id' => 'id']],
+            [['other_lang'], 'string']
         ];
     }
 

@@ -43,7 +43,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function actionCvDownload($id = 3) {
+    public function actionCvDownload() {
         $model = $this->findWorker(Yii::$app->user->identity->getId());
         $user = User::findOne($model->userId);
 
@@ -131,7 +131,7 @@ class DashboardController extends Controller
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ArrayHelper::merge(
                     ActiveForm::validateMultiple($modelsLaborActivity),
-                    ActiveForm::validateMultiple($modelsLanguage),
+                    ActiveForm::validateMultiple($modelsLanguage), 
                     ActiveForm::validate($model)
                 );
             }
@@ -140,7 +140,7 @@ class DashboardController extends Controller
             $valid = $model->validate();
             $valid = Model::validateMultiple($modelsLanguage) && Model::validateMultiple($modelsLaborActivity) && $valid;
 
-            
+
             if ($valid) {
                 $upload_flag = true;
                 if ($model->photo_user = UploadedFile::getInstance($model, 'photo_user')) {
@@ -150,14 +150,13 @@ class DashboardController extends Controller
                 }
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
-
                     if ($flag = $model->save(false) && $upload_flag) {
-                        
+
                         $user = User::findOne(Yii::$app->user->identity->getId());
                         $user->regionId = $model->regionId;
                         $user->cityId = $model->cityId;
                         $user->save();
-                        
+
                         if (! empty($deletedlangIDs)) {
                             WorkerLanguage::deleteAll(['id' => $deletedlangIDs]);
                         }
@@ -180,7 +179,6 @@ class DashboardController extends Controller
                             }
                         }
                     }
-
                     if ($flag) {
                         $transaction->commit();
                         return $this->redirect('/dashboard/worker');
@@ -200,13 +198,13 @@ class DashboardController extends Controller
         return $this->render('edit-worker', [
             'model' => $model,
             'modelsLaborActivity' => (empty($modelsLaborActivity)) ? [new LaborActivity] : $modelsLaborActivity,
-            'modelsLanguage' => (empty($modelsLanguage)) ? [new Language] : $modelsLanguage,
+            'modelsLanguage' => (empty($modelsLanguage)) ? [new WorkerLanguage] : $modelsLanguage,
             ]
         );
     }
 
     public function actionWorkerCreate(){
-        
+
         if ($this->findWorker(Yii::$app->user->identity->getId())){
             return $this->redirect('edit-worker');
         }
@@ -229,9 +227,8 @@ class DashboardController extends Controller
 
             // validate all models
             $valid = $model->validate();
-            
             $valid = Model::validateMultiple($modelsLanguage) && Model::validateMultiple($modelsLaborActivity) && $valid;
-           
+
             if ($valid) {
                 $upload_flag = true;
                 if ($model->photo_user = UploadedFile::getInstance($model, 'photo_user')) {
@@ -244,7 +241,7 @@ class DashboardController extends Controller
 
                 try {
                     if ($flag = $model->save(false) && $upload_flag) {
-                        
+
                         $user = User::findOne(Yii::$app->user->identity->getId());
                         $user->regionId = $model->regionId;
                         $user->cityId = $model->cityId;

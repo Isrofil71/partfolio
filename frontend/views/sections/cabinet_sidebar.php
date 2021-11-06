@@ -7,7 +7,7 @@ use yii\bootstrap4\NavBar;
 use \yii\web\YiiAsset;
 use mdm\admin\components\MenuHelper;
 
-$menuItems = [//logout qismi
+$menuItems = [
     [
         'label' => 'Logout (' . \Yii::$app->user->identity->username . ')',
         'url' => ['/site/logout'],
@@ -16,7 +16,7 @@ $menuItems = [//logout qismi
 ];
 
 $menuItems = array_merge(
-        MenuHelper::getAssignedMenu(Yii::$app->user->id),//rbag menuda chaqirib beradi
+        MenuHelper::getAssignedMenu(Yii::$app->user->id),
         Helper::filter($menuItems)
 );
 

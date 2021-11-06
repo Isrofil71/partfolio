@@ -51,3 +51,21 @@ $('#worker-regionid').change(function(){
         }
     });
 });
+
+$('#vacancy-region_id').change(function(){
+    let id = $(this).val();
+
+    $.ajax({
+        method: "get",
+        url: "/ajax/cities",
+        data: { id: id},
+        success: function(data) {
+            $('#vacancy-city_id').html(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        }
+    });
+});

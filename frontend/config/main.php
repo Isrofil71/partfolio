@@ -48,7 +48,7 @@ return [
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.gmail.com',
-                'username' => 'sardor0418@gmail.com',
+                'username' => 'wertprogram@mail.ru',
                 'password' => 'dhcddrxixzljmcsf',
                 'port' => '587',
                 'encryption' => 'tls',
@@ -104,9 +104,12 @@ return [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
             'site/*',
+            'my-history/*',
             'ajax/*',
             'admn/*',
             'gii/*',
+            'vacancy/list',
+            'vacancy/single',
         ]
     ],
 ];

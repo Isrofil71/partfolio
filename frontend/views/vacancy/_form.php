@@ -11,7 +11,6 @@ use yii\helpers\Html;
 use yii\jui\DatePicker;
 use yii\widgets\ActiveForm;
 
-
 /* @var $this yii\web\View */
 /* @var $model common\models\Vacancy */
 /* @var $form yii\widgets\ActiveForm */
@@ -19,7 +18,7 @@ use yii\widgets\ActiveForm;
 
 <div class="vacancy-form">
 
-<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
 <!--    --><?//= $form->field($model, 'company_id')->textInput() ?>
 <!---->
@@ -63,10 +62,10 @@ use yii\widgets\ActiveForm;
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="descuz" role="tabpanel" aria-labelledby="descuz-tab">    
+        <div class="tab-pane fade show active" id="descuz" role="tabpanel" aria-labelledby="descuz-tab">
             <?= $form->field($model, 'description_uz')->widget(TinyMce::className(), [
                 'options' => ['rows' => 6],
-                'language' => 'en',
+                'language' => 'ru',
                 'clientOptions' => [
                     'plugins' => [
                         "advlist autolink lists link charmap print preview anchor",
@@ -101,9 +100,9 @@ use yii\widgets\ActiveForm;
             ]);?>
         </div>
         <div class="tab-pane fade" id="descru" role="tabpanel" aria-labelledby="descru-tab">
-        <?= $form->field($model, 'description_ru')->widget(TinyMce::className(), [
+            <?= $form->field($model, 'description_ru')->widget(TinyMce::className(), [
                 'options' => ['rows' => 6],
-                'language' => 'en',
+                'language' => 'ru',
                 'clientOptions' => [
                     'plugins' => [
                         "advlist autolink lists link charmap print preview anchor",
@@ -138,9 +137,9 @@ use yii\widgets\ActiveForm;
             ]);?>
         </div>
         <div class="tab-pane fade" id="descen" role="tabpanel" aria-labelledby="descen-tab">
-        <?= $form->field($model, 'description_en')->widget(TinyMce::className(), [
+            <?= $form->field($model, 'description_en')->widget(TinyMce::className(), [
                 'options' => ['rows' => 6],
-                'language' => 'en',
+                'language' => 'ru',
                 'clientOptions' => [
                     'plugins' => [
                         "advlist autolink lists link charmap print preview anchor",
@@ -175,9 +174,9 @@ use yii\widgets\ActiveForm;
             ]);?>
         </div>
         <div class="tab-pane fade" id="descoz" role="tabpanel" aria-labelledby="descoz-tab">
-        <?= $form->field($model, 'description_oz')->widget(TinyMce::className(), [
+            <?= $form->field($model, 'description_oz')->widget(TinyMce::className(), [
                 'options' => ['rows' => 6],
-                'language' => 'en',
+                'language' => 'ru',
                 'clientOptions' => [
                     'plugins' => [
                         "advlist autolink lists link charmap print preview anchor",
@@ -253,14 +252,13 @@ use yii\widgets\ActiveForm;
     <div class="row">
         <div class="col-md-4">
             <?= $form->field($model, 'gender')->dropDownList(
-                    [
-                        1 => 'Erkak',
-                        2 => 'Ayol',
-                        3 => 'Ahamyatsiz'
-                    ],
-                    [
-                        'prompt' => 'Jinsi ...'
-                    ]
+                [
+                    1 => 'Erkak',
+                    2 => 'Ayol'
+                ],
+                [
+                    'prompt' => 'Jinsi ...'
+                ]
             ) ?>
         </div>
         <div class="col-md-4">

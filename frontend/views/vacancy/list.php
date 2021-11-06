@@ -33,7 +33,7 @@ $name = 'name_' . Yii::$app->language;
         <?php $sheet[] = $item ?>
 
         <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-                        <a href="/vacancy/single?id=<?= $item->id ?>"></a><!-- bu single lingni beradi -->
+                        <a href="/vacancy/single?id=<?= $item->id ?>"></a>
                         <div class="job-listing-logo">
                             <img src="<?= $item->image ? '/'.$item->image : 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_17cb871a4aa%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_17cb871a4aa%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.390625%22%20y%3D%22104.5%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E' ?>" alt="Image" class="img-fluid">
                         </div>
@@ -59,7 +59,28 @@ $name = 'name_' . Yii::$app->language;
 
             <div class="row pagination-wrap">
                 <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-                    <span>Showing <?= $pagination->page ?> 1-7 Of <?= $pagination->totalCount ?> Jobs</span>
+                    <?php
+
+                        $begin = $pagination->getPage() * $pagination->pageSize + 1;
+                        $end = $begin + count($model) - 1;
+                        if ($begin > $end) {
+                            $begin = $end;
+                        }
+                        $current_page = $pagination->getPage();
+                        $page = $pagination->getPage() + 1;
+                        $pageCount = $pagination->pageCount;
+
+
+                        $summary = Yii::t('yii', 'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{item} other{items}}.', [
+                            'begin' => $begin,
+                            'end' => $end,
+                            'count' => $pagination->totalCount,
+                            'totalCount' => $pagination->totalCount,
+                            'page' => $page,
+                            'pageCount' => $pageCount,
+                        ])
+                    ?>
+                     <span><?= $summary ?></span>
                 </div>
 
 
@@ -68,6 +89,7 @@ $name = 'name_' . Yii::$app->language;
                         'pagination' => $pagination,
                         'options' => ['class' => 'custom-pagination ml-auto d-flex align-items-center justify-content-end nav'],
                         'pageCssClass' => 'mr-2',
+                        'activePageCssClass' => 'active-page',
                         'prevPageLabel' => Yii::t('app', 'Prev'),
                         'nextPageLabel' => Yii::t('app', 'Next'),
                         'prevPageCssClass' => 'prev ',

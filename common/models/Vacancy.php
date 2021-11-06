@@ -4,8 +4,6 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\base\Model;
-use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "vacancy".
@@ -165,10 +163,7 @@ class Vacancy extends \yii\db\ActiveRecord
     {
         return $this->hasOne(JobType::className(), ['id' => 'job_type_id']);
     }
-    public function Profession()
-    {
-        return ArrayHelper::map(Profession::find()->all(), 'id', 'name');
-    }
+
     public function upload()
     {
         $this->image = 'img/vacancy/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;

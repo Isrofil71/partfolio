@@ -39,11 +39,11 @@ AppAsset::register($this);
 
 <?= Yii::$app->controller->renderPartial("//sections/header") ?>
 
-    <div class="container">
-        <?= $content ?>
-    </div>
 
-    <?= Yii::$app->controller->renderPartial("//sections/footer") ?>
+<?= $content ?>
+
+
+<?= Yii::$app->controller->renderPartial("//sections/footer") ?>
 
 </div>
 

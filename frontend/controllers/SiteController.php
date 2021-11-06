@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Appeals;
 use common\models\Company;
 use common\models\Partners;
+use common\models\Statistic;
 use common\models\Worker;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
@@ -81,7 +82,11 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $partners = Partners::find()->where(['status' => 1])->orderBy(['order' => SORT_ASC])->all();
-        return $this->render('index', ['partners' => $partners]);
+        $statistics = Statistic::findOne(1);
+        return $this->render('index', [
+            'partners' => $partners,
+            'statistics' => $statistics,
+        ]);
     }
 
     /**
