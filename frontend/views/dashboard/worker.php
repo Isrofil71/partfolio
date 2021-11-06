@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 $name = 'name_' . Yii::$app->language;
+
 echo "<h3>Worker ma'lumotlari</h3>";
 echo DetailView::widget([
     'model' => $model,
@@ -15,7 +16,7 @@ echo DetailView::widget([
         'gender',
         [
             'attribute' => 'nationality_id',
-            'value' => $model->nationality ? $model->nationality->name : " "
+            'value' => $model->nationality->name
         ],
         [
             'attribute' => 'region_id',
@@ -65,6 +66,7 @@ echo DetailView::widget([
                 return $know_labor_activity;
             }
         ],
+
         'created_at',
         'updated_at',
     ],
@@ -74,3 +76,4 @@ echo DetailView::widget([
 
 
 <?= Html::a( Yii::t('app', 'Edit'), '/dashboard/edit-worker', ['class' => 'btn btn-success px-5']) ?>
+

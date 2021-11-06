@@ -33,11 +33,9 @@
             </div>
         </div>
         <?= $this->render('_form', [
-                'model' => $model,
-                'modelsLanguage' => (empty($modelsLanguage)) ? [new WorkerLanguage()] : $modelsLanguage,
-                'modelsLaborActivity' => (empty($modelsLaborActivity)) ? [new LaborActivity()] : $modelsLaborActivity
+            'model' => $model,
+            'modelsLanguage' => $modelsLanguage,
+            'modelsLaborActivity' => $modelsLaborActivity,
         ])?>
     </div>
 </div>
-
-

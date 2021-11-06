@@ -5,8 +5,10 @@
 /* @var $model \frontend\models\SignupForm */
 
 use common\models\City;
+use common\models\LaborActivity;
 use common\models\Nationality;
 use common\models\Region;
+use common\models\WorkerLanguage;
 use kartik\date\DatePicker;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\ActiveForm;

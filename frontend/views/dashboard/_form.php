@@ -136,7 +136,7 @@ $this->registerJs($js);
                 <?= $form->field($model, 'profession_id')->dropDownList(
                     Profession::selectList(),
                     [
-                        'prompt' => 'Sohangiz ...'  
+                        'prompt' => 'Sohangiz ...'
                     ]
                 ) ?>
             </div>
@@ -182,7 +182,7 @@ $this->registerJs($js);
                                                     if (!$modelLanguage->isNewRecord) {
                                                         echo Html::activeHiddenInput($modelLanguage, "[{$index}]id");
                                                     }
-                                                    ?>
+                                                    ?> 
 
                                                     <div class="row">
                                                         <div class="col-sm-4">
