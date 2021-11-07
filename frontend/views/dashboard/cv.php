@@ -9,7 +9,7 @@ echo "<h3>Worker resume</h3>";
 
 
 
-?>
+?> 
 
 <table>
     <tr>
