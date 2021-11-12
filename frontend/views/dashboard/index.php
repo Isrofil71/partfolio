@@ -3,6 +3,17 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+?>
+<?php if($orders_count > 0): ?>
+    <audio src=""></audio>
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">You have orders!</h4>
+        <p>
+            <a href="/dashboard/orders">Now you have <span class="budge budge-success"><?= $orders_count?></span> vacancy orders</a>
+        </p>
+    </div>
+<?php endif;?>
+<?php
 echo DetailView::widget([
     'model' => $model,
     'attributes' => [
