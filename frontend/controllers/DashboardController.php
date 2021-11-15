@@ -282,11 +282,11 @@ class DashboardController extends Controller
         ]);
     }
 
-    public  function actionIndex(){
+    public function actionIndex(){
 
         $id = \Yii::$app->user->getId();
         $model = $this->findModel($id);
-        $orders_count = VacancyOrders::find()->where(['company_id' => $model->id, 'company_view' => 0 ])->cou();
+        $orders_count = VacancyOrders::find()->where(['company_id' => $model->id, 'company_view' => 0])->count();
         return $this->render('index', [
             'model' => $model,
             'orders_count' => $orders_count,
