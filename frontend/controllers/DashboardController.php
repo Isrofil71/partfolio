@@ -283,16 +283,12 @@ class DashboardController extends Controller
     }
 
     public function actionIndex(){
-
         $id = \Yii::$app->user->getId();
         $model = $this->findModel($id);
-        $orders_count = VacancyOrders::find()->where(['company_id' => $model->id, 'company_view' => 0])->count();
-        return $this->render('index', [
-            'model' => $model,
-            'orders_count' => $orders_count,
-        ]);
+        
+        return $this->render('index', ['model' => $model]);
     }
-
+    
 
     public function actionEdit(){
 
@@ -318,22 +314,6 @@ class DashboardController extends Controller
         return $this->render('edit', ['company' => $company]);
 
     }
-    public function actionMyOrders(){
-
-        if ($identity = Yii::$app->user->identity) {
-            $company = Company::findOne(['userId' => $identity->id]);
-            $company_id = $company ? $company->id : null;
-            $orders = VacancyOrders::find()->where(['company_id' => $company_id])->all();
-
-        }
-
-        
-
-        return $this->render('orders', [
-            'orders' => $orders]);
-
-    }
-
 
     protected function findModel($id)
     {

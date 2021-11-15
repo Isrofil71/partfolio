@@ -1,7 +1,7 @@
 <?php
 return [
     'adminEmail' => 'admin@example.com',
-    'supportPhone' => '+99899 222 00 44',
+    'supportPhone' => '+99899 718 18 89',
     'officeAddress' => 'Samarqand shahri, Ali Qushchi ko`chasi, 27/24 uy',
     'supportEmail' => 'wertprogram@mail.ru',
     'senderEmail' => 'noreply@example.com',
