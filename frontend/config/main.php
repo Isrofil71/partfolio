@@ -49,7 +49,7 @@ return [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.gmail.com',
                 'username' => 'wertprogram@mail.ru',
-                'password' => 'dhcddrxixzljmcsf',
+                'password' => 'xhenejuomblirkcv',
                 'port' => '587',
                 'encryption' => 'tls',
             ],
