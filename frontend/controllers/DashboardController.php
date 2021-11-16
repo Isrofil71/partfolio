@@ -9,6 +9,7 @@ use common\models\LaborActivity;
 use common\models\Language;
 use common\models\Region;
 use common\models\User;
+use common\models\VacancyOrders;
 use common\models\Worker;
 use common\models\City;
 use common\models\WorkerLanguage;
@@ -43,34 +44,41 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function actionCvDownload() {
-        $model = $this->findWorker(Yii::$app->user->identity->getId());
-        $user = User::findOne($model->userId);
+    public function actionCvDownload($id = null) {
 
-        if ($user->regionId && $user->cityId){
-            $model->regionId = $user->regionId;
-            $model->cityId = $user->cityId;
+        $identity = Yii::$app->user->identity;
+        $model = Worker::findOne($id);
+        if (!$model or $model->userId == $identity->id)
+        {
+            $model = $this->findWorker($identity->id);
+            $user = User::findOne($model->userId);
+
+            if ($user->regionId && $user->cityId){
+                $model->regionId = $user->regionId;
+                $model->cityId = $user->cityId;
+            }
         }
+
         // get your HTML raw content without any layouts or scripts
         $content = $this->renderPartial('cv', ['model' => $model]);
 
         // setup kartik\mpdf\Pdf component
         $pdf = new Pdf([
             // set to use core fonts only
-            'mode' => Pdf::MODE_CORE,
+            'mode' => Pdf::MODE_UTF8,
             // A4 paper format
             'format' => Pdf::FORMAT_A4,
             // portrait orientation
             'orientation' => Pdf::ORIENT_PORTRAIT,
             // stream to browser inline
-            'destination' => Pdf::DEST_BROWSER,
+            'destination' => Pdf::DEST_DOWNLOAD,
             // your html content input
             'content' => $content,
             // format content from your own css file if needed or use the
             // enhanced bootstrap css built by Krajee for mPDF formatting
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
             // any css to be embedded if required
-            'cssInline' => '.kv-heading-1{font-size:18px}',
+            'cssInline' => '.kv-heading-1{font-size:18px} .oq{color: #fff}',
             // set mPDF properties on the fly
             'options' => ['title' => 'Krajee Report Title'],
             // call mPDF methods on the fly
@@ -88,13 +96,18 @@ class DashboardController extends Controller
 
     public function actionWorker(){
 
-        $model = $this->findWorker(Yii::$app->user->identity->getId());
-        $user = User::findOne($model->userId);
+        if (Yii::$app->user->identity && $model = $this->findWorker(Yii::$app->user->identity->getId())){
 
-        if ($user->regionId && $user->cityId){
-            $model->regionId = $user->regionId;
-            $model->cityId = $user->cityId;
+            $user = User::findOne($model->userId);
+
+            if ($user->regionId && $user->cityId){
+                $model->regionId = $user->regionId;
+                $model->cityId = $user->cityId;
+            }
+        }else{
+            return $this->redirect('/dashboard/edit-worker');
         }
+
 
         return $this->render('worker', [
             'model' => $model,
@@ -198,7 +211,7 @@ class DashboardController extends Controller
         return $this->render('edit-worker', [
             'model' => $model,
             'modelsLaborActivity' => (empty($modelsLaborActivity)) ? [new LaborActivity] : $modelsLaborActivity,
-            'modelsLanguage' => (empty($modelsLanguage)) ? [new WorkerLanguage] : $modelsLanguage,
+            'modelsLanguage' => (empty($modelsLanguage)) ? [new Language] : $modelsLanguage,
             ]
         );
     }
@@ -283,13 +296,17 @@ class DashboardController extends Controller
     }
 
     public function actionIndex(){
+
         $id = \Yii::$app->user->getId();
         $model = $this->findModel($id);
-        
-        return $this->render('index', ['model' => $model]);
+        $orders_count = VacancyOrders::find()->where(['company_id' => $model->id, 'company_view' => 0])->count();
+
+        return $this->render('index', [
+            'model' => $model,
+            'orders_count' => $orders_count,
+        ]);
     }
     
-
     public function actionEdit(){
 
         $id = \Yii::$app->user->getId();
@@ -313,6 +330,31 @@ class DashboardController extends Controller
 
         return $this->render('edit', ['company' => $company]);
 
+    }
+
+    public function actionMyOrders()
+    {
+        $worker_id = Worker::findOne(['userId' => Yii::$app->user->identity->getId()])->id;
+        $my_orders = VacancyOrders::find()->where(['worker_id' => $worker_id])->all();
+
+        return $this->render('myorders',[
+           'my_orders' => $my_orders,
+        ]);
+    }
+
+    public function actionOrders()
+    {
+        $orders = null;
+        if ($identity = Yii::$app->user->identity)
+        {
+            $company = Company::findOne(['userId' => $identity->id]);
+            $company_id = $company ? $company->id : null;
+            $orders = VacancyOrders::find()->where(['company_id' => $company_id])->all();
+        }
+
+        return $this->render('orders',[
+            'orders' => $orders,
+        ]);
     }
 
     protected function findModel($id)
