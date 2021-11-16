@@ -48,8 +48,8 @@ return [
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.gmail.com',
-                'username' => 'wertprogram@mail.ru',
-                'password' => 'xhenejuomblirkcv',
+                'username' => 'khurramovisrofil07@gmail.com',
+                'password' => 'wwhzppffayixkgpf',
                 'port' => '587',
                 'encryption' => 'tls',
             ],
