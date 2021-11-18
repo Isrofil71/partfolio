@@ -179,10 +179,12 @@ class SiteController extends Controller
         $company = new Company();
         $company->scenario = Company::SCENARIO_SIGNUP;
         if ($company->load(Yii::$app->request->post())) {
+            
             $user->username = $company->username;
             $user->password = $company->password;
             $user->email = $company->email;
 //            $user->status = 10;
+           
             $user->role = 'company';
 
             if ($user = $user->signup()){
@@ -197,7 +199,10 @@ class SiteController extends Controller
                     }
                     return $this->refresh();
                 }
+            }else{
+                
             }
+            
         }
 
         return $this->render('signup', [
