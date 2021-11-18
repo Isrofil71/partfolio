@@ -18,6 +18,7 @@ class AppAsset extends AssetBundle
     public $js = [
         'https://use.fontawesome.com/releases/v5.3.1/js/all.js',
         'js/main.js',
+        'js/map.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
