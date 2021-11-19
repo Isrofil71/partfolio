@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Company;
 use common\models\Vacancy;
+use frontend\models\Report;
 use frontend\models\VacancySearch;
 use Yii;
 use yii\data\Pagination;
@@ -173,7 +174,13 @@ class VacancyController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionReport(){
+        $result = Report::MapJoin();
+
+        vd($result);
+    }
+
+     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
