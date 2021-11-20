@@ -14,6 +14,7 @@ use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use yii\data\Pagination;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
@@ -87,6 +88,11 @@ class SiteController extends Controller
         $partners = Partners::find()->where(['status' => 1])->orderBy(['order' => SORT_ASC])->all();
         $statistics = Statistic::findOne(1);
         $result_maps = Report::MapJoin();
+
+        $pagination = new Pagination([
+            'totalCount' => $count,
+            'pageSize' => 4
+        ]);
         
         return $this->render('index', [
             'partners' => $partners,
