@@ -19,6 +19,7 @@ use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
+use frontend\models\Report;
 use frontend\models\ContactForm;
 use yii\web\UploadedFile;
 
@@ -83,9 +84,14 @@ class SiteController extends Controller
     {
         $partners = Partners::find()->where(['status' => 1])->orderBy(['order' => SORT_ASC])->all();
         $statistics = Statistic::findOne(1);
+        $result_maps = Report::MapJoin();
+        
         return $this->render('index', [
             'partners' => $partners,
             'statistics' => $statistics,
+            'vacancys' => $vacancys,
+            'pagination' => $pagination,
+            'result_maps' => $result_maps
         ]);
     }
 
