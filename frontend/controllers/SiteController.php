@@ -82,6 +82,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $vacancys = Vacancy::find()->limit(8)->all();
         $partners = Partners::find()->where(['status' => 1])->orderBy(['order' => SORT_ASC])->all();
         $statistics = Statistic::findOne(1);
         $result_maps = Report::MapJoin();
