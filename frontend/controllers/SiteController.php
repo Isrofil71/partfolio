@@ -7,6 +7,7 @@ use common\models\Company;
 use common\models\Partners;
 use common\models\Statistic;
 use common\models\Worker;
+use common\models\Vacancy;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
