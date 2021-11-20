@@ -174,12 +174,7 @@ class VacancyController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionReport(){
-        $result = Report::MapJoin();
-
-        vd($result);
-    }
-
+    
      public function actionDelete($id)
     {
         $this->findModel($id)->delete();
