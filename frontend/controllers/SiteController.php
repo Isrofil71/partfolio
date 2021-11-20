@@ -89,6 +89,8 @@ class SiteController extends Controller
         $statistics = Statistic::findOne(1);
         $result_maps = Report::MapJoin();
 
+        $query = Vacancy::find();
+
         $count = $query->count();
 
         $pagination = new Pagination([
