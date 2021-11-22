@@ -3,8 +3,18 @@
 namespace frontend\controllers;
 
 use common\models\Company;
+use common\models\Import;
+use common\models\JobType;
+use common\models\LoginForm;
+use common\models\Profession;
+use common\models\Region;
+use common\models\User;
 use common\models\Vacancy;
+use common\models\VacancyOrders;
+use common\models\Worker;
+use frontend\models\City;
 use frontend\models\Report;
+use frontend\models\SignupForm;
 use frontend\models\VacancySearch;
 use Yii;
 use yii\data\Pagination;
@@ -122,14 +132,18 @@ class VacancyController extends Controller
 
     public function actionList()
     {
-        $this->layout = 'main';
-        $query = Vacancy::find();
 
-        $count = $query->count();
+        $this->layout = 'main';
+
+        $searchModel = new VacancySearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        $query = Vacancy::find();
+        $count = $dataProvider->count;
 
         $pagination = new Pagination([
             'totalCount' => $count,
-            'pageSize' => 2
+            'pageSize' => 50
         ]);
 
         $model = $query->offset($pagination->offset)
@@ -138,13 +152,39 @@ class VacancyController extends Controller
 
         return $this->render('list', [
             'model' => $model,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function actionSingle($id)
+    public function actionSingle($id, $add = null)
     {
         $this->layout = 'main';
+        $model = $this->findModel($id);
+
+
+        if ($identity = Yii::$app->user->identity){
+
+            $company = Company::findOne(['userId' => $identity->id]);
+            $worker = Worker::findOne(['userId' => $identity->id]);
+            $worker_id = $worker ? $worker->id : null;
+
+            if ($worker_id){
+                $order = VacancyOrders::findOne(['vacancy_id' => $id, 'worker_id' => $worker_id]);
+            }
+
+            if ($add){
+                $vacancy_order = new VacancyOrders();
+                $vacancy_order->company_id = $model->company_id;
+                $vacancy_order->vacancy_id = $id;
+                $vacancy_order->worker_id = $worker_id;
+
+                $vacancy_order->save();
+
+                return $this->redirect('/vacancy/single?id=' . $id);
+            }
+        }
 
         $query = Vacancy::find();
 
@@ -159,11 +199,14 @@ class VacancyController extends Controller
             ->limit($pagination->limit)
             ->all();
 
+        $order = isset($order) ? true : false;
+
         return $this->render('single', [
-            'model' => $this->findModel($id),
+            'model' => $model,
             'vacancyes' => $vacancyes,
             'pagination' => $pagination,
             'count' => $count,
+            'order' => $order,
         ]);
     }
 
@@ -174,8 +217,7 @@ class VacancyController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    
-     public function actionDelete($id)
+    public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
@@ -196,5 +238,106 @@ class VacancyController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+    public function actionImportExcel()
+    {
+
+        $inputFile = 'import/vacancy.xlsx';
+        try{
+            $inputFileType = \PHPExcel_IOFactory::identify($inputFile);
+            $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($inputFile);
+        } catch (Exception $e) {
+            die('Error');
+        }
+
+        $sheet = $objPHPExcel->getSheet(0);
+        $highestRow = $sheet->getHighestRow();
+        $highestColumn = $sheet->getHighestColumn();
+
+
+        for($row=1; $row <= $highestRow; $row++)
+        {
+            $rowData = $sheet->rangeToArray('A'.$row.':'.$highestColumn.$row,NULL,TRUE,FALSE);
+
+            if($row==1)
+            {
+                continue;
+            }
+
+            $region_id = ($region = Region::findOne(['name_uz' => $rowData[0][7]])) ? $region->id : 1;
+            $city_id = ($city = City::findOne(['name_uz' => $rowData[0][8]])) ? $city->id : 1;
+
+            $model = new Vacancy();
+            $user = User::findOne(['username' => strtolower($rowData[0][0])]);
+
+            if ($company = Company::findOne(['name' => $rowData[0][0]])){
+                $model->company_id = $company->id;
+            }else{
+
+                // Create user
+                if (!$user){
+                    $user = new SignupForm();
+                    $user->username = strtolower($rowData[0][0]);
+                    $user->email = strtolower($rowData[0][0]) . '@sardor.smartdesign.uz';
+                    $user->password = '12341234';
+                    $user->status = 10;
+                    $user->role = 'company';
+                    $user = $user->signup();
+                }
+
+                //Create company
+                $company = new Company();
+                $company->scenario = 'signup';
+                $company->userId = $user->id;
+                $company->name = $rowData[0][0];
+                $company->director_name = 'Direktor';
+                $company->regionId = $region_id;
+                $company->cityId = $city_id;
+                $company->address = $rowData[0][14];
+                $company->phone = '1234567';
+                $company->logo = 'Yuq';
+                $company->date = date('Y-m-d', time());
+
+                if (!$company->save()){
+                    vd($company->errors);
+                }
+
+                $model->company_id = $company->id;
+
+            }
+
+
+            $model->profession_id = ($profession = Profession::findOne(['name_uz' => $rowData[0][1]])) ? $profession->id : 50;
+            $model->user_id = $user->id;
+            $model->description_uz = $rowData[0][2];
+            $model->description_ru = $rowData[0][3];
+            $model->description_en = $rowData[0][4];
+            $model->description_oz = $rowData[0][5];
+            $model->job_type_id = ($job = JobType::findOne(['name_uz' => $rowData[0][6]])) ? $job->id : 1;
+            $model->region_id = $region_id;
+            $model->city_id = $city_id;
+            $model->count_vacancy = $rowData[0][9];
+            $model->salary = $rowData[0][10];
+            $model->gender = $this->CheckGender($rowData[0][11]);
+            $model->experience = $rowData[0][12];
+            $model->telegram = $rowData[0][13];
+            $model->address = $rowData[0][14];
+
+            if (!$model->save()){
+                vd($model->errors);
+            }
+
+        }
+        die('okay');
+
+    }
+    public function CheckGender($data){
+        $result = 0;
+        switch ($data){
+            case 'Erkak': $result = 1; break;
+            case 'Ayol': $result = 2; break;
+        }
+        return $result;
     }
 }

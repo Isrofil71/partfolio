@@ -52,6 +52,7 @@
         "yiisoft/yii2-swiftmailer": "*",
         "mihaildev/yii2-ckeditor": "*",
         "2amigos/yii2-tinymce-widget": "~1.1",
-        "wbraganca/yii2-dynamicform": "*"
+        "wbraganca/yii2-dynamicform": "*",
+        "phpoffice/phpexcel": "^1.8"
     }
 }
