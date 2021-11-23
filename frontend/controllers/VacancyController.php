@@ -260,16 +260,16 @@ class VacancyController extends Controller
         {
             $rowData = $sheet->rangeToArray('A'.$row.':'.$highestColumn.$row,NULL,TRUE,FALSE);
 
-            if($row==1)
+            if($row==1)//exceldagi birinchi qatorni tashlab ketadi
             {
                 continue;
             }
 
-            $region_id = ($region = Region::findOne(['name_uz' => $rowData[0][7]])) ? $region->id : 1;
+            $region_id = ($region = Region::findOne(['name_uz' => $rowData[0][7]])) ? $region->id : 1;//0,7 regionni nomiga qarab id ni olayabmiz
             $city_id = ($city = City::findOne(['name_uz' => $rowData[0][8]])) ? $city->id : 1;
 
             $model = new Vacancy();
-            $user = User::findOne(['username' => strtolower($rowData[0][0])]);
+            $user = User::findOne(['username' => strtolower($rowData[0][0])]);//usernameni aniqlayabmiz
 
             if ($company = Company::findOne(['name' => $rowData[0][0]])){
                 $model->company_id = $company->id;
