@@ -114,25 +114,25 @@ $this->title = 'Isrofil`s partfolio';
         <div class="row pb-0 block__19738 section-counter">
             <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
                 <div class="d-flex align-items-center justify-content-center mb-2">
-                    <strong class="number" data-number="1930"><?= $statistics->vacancyes ?></strong>
+                    <strong class="number" data-number="<?= $statistics ? $statistics->vacancyes : 'Null' ?>"><?= $statistics->vacancyes ?></strong>
                 </div>
                 <span class="caption">Vacancyes</span>
             </div>
             <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
                 <div class="d-flex align-items-center justify-content-center mb-2">
-                    <strong class="number" data-number="54"><?= $statistics->users ?></strong>
+                    <strong class="number" data-number="<?= $statistics ? $statistics->users : 'Null' ?>"><?= $statistics ? $statistics->users : 'Null' ?></strong>
                 </div>
                 <span class="caption">Users</span>
             </div>
             <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
                 <div class="d-flex align-items-center justify-content-center mb-2">
-                    <strong class="number" data-number="120"><?= $statistics->workers ?></strong>
+                    <strong class="number" data-number="<?= $statistics ? $statistics->workers : 'Null' ?>"><?= $statistics ? $statistics->workers : 'Null' ?></strong>
                 </div>
                 <span class="caption">Workers</span>
             </div>
             <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
                 <div class="d-flex align-items-center justify-content-center mb-2">
-                    <strong class="number" data-number="550"><?= $statistics->companyes ?></strong>
+                    <strong class="number" data-number="<?= $statistics ? $statistics->companyes : 'Null' ?>"><?= $statistics ? $statistics->companyes : 'Null' ?></strong>
                 </div>
                 <span class="caption">Companies</span>
             </div>

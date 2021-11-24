@@ -279,7 +279,7 @@ class VacancyController extends Controller
                 if (!$user){
                     $user = new SignupForm();
                     $user->username = strtolower($rowData[0][0]);
-                    $user->email = strtolower($rowData[0][0]) . '@sardor.smartdesign.uz';
+                    $user->email = strtolower($rowData[0][0]) . '@isrofil.smartdesign.uz';
                     $user->password = '12341234';
                     $user->status = 10;
                     $user->role = 'company';
