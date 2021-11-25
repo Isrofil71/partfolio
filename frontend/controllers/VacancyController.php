@@ -138,21 +138,7 @@ class VacancyController extends Controller
         $searchModel = new VacancySearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
-        $query = Vacancy::find();
-        $count = $dataProvider->count;
-
-        $pagination = new Pagination([
-            'totalCount' => $count,
-            'pageSize' => 50
-        ]);
-
-        $model = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-
         return $this->render('list', [
-            'model' => $model,
-            'pagination' => $pagination,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

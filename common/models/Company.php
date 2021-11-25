@@ -84,8 +84,8 @@ class Company extends \yii\db\ActiveRecord
     public function scenarios()
     {
         return [
-            self::SCENARIO_SIGNUP2 => ['userId', 'name', 'director_name', 'regionId', 'cityId', 'address', 'phone', 'logo', 'imgLogo', 'status', 'date', 'username', 'password', 'email'],
-            self::SCENARIO_SIGNUP => ['userId', 'name', 'director_name', 'regionId', 'cityId', 'address', 'phone', 'logo', 'imgLogo', 'status', 'date'],
+            self::SCENARIO_SIGNUP => ['userId', 'name', 'director_name', 'regionId', 'cityId', 'address', 'phone', 'logo', 'imgLogo', 'status', 'date', 'username', 'password', 'email'],
+            self::SCENARIO_SIGNUP2 => ['userId', 'name', 'director_name', 'regionId', 'cityId', 'address', 'phone', 'logo', 'imgLogo', 'status', 'date'],
             self::SCENARIO_CABINET => ['name', 'director_name', 'regionId', 'cityId', 'address', 'phone', 'imgLogo', 'logo'],
         ];
     }
