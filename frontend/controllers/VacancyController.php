@@ -269,14 +269,18 @@ class VacancyController extends Controller
             $city_id = ($city = City::findOne(['name_uz' => $rowData[0][8]])) ? $city->id : 1;
 
             $model = new Vacancy();
+           
             $user = User::findOne(['username' => strtolower($rowData[0][0])]);//usernameni aniqlayabmiz
-
+            //vd($user);
             if ($company = Company::findOne(['name' => $rowData[0][0]])){
                 $model->company_id = $company->id;
             }else{
 
                 // Create user
                 if (!$user){
+                    // if (empty($rowData[0][0])) {
+                    //     continue;
+                    // }
                     $user = new SignupForm();
                     $user->username = strtolower($rowData[0][0]);
                     $user->email = strtolower($rowData[0][0]) . '@isrofil.smartdesign.uz';
@@ -284,11 +288,12 @@ class VacancyController extends Controller
                     $user->status = 10;
                     $user->role = 'company';
                     $user = $user->signup();
+                    
                 }
-
+                
                 //Create company
                 $company = new Company();
-                $company->scenario = 'signup';
+                $company->scenario = 'signup2';
                 $company->userId = $user->id;
                 $company->name = $rowData[0][0];
                 $company->director_name = 'Direktor';
@@ -308,7 +313,7 @@ class VacancyController extends Controller
             }
 
 
-            $model->profession_id = ($profession = Profession::findOne(['name_uz' => $rowData[0][1]])) ? $profession->id : 50;
+            $model->profession_id = ($profession = Profession::findOne(['name_uz' => $rowData[0][1]])) ? $profession->id : 2;
             $model->user_id = $user->id;
             $model->description_uz = $rowData[0][2];
             $model->description_ru = $rowData[0][3];

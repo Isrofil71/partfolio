@@ -42,6 +42,7 @@ class Company extends \yii\db\ActiveRecord
 
     const SCENARIO_CABINET = 'cabinet';
     const SCENARIO_SIGNUP = 'signup';
+    const SCENARIO_SIGNUP2 = 'signup2';
 
     public function rules()
     {
@@ -83,7 +84,8 @@ class Company extends \yii\db\ActiveRecord
     public function scenarios()
     {
         return [
-            self::SCENARIO_SIGNUP => ['userId', 'name', 'director_name', 'regionId', 'cityId', 'address', 'phone', 'logo', 'imgLogo', 'status', 'date', 'username', 'email', 'password'],
+            self::SCENARIO_SIGNUP2 => ['userId', 'name', 'director_name', 'regionId', 'cityId', 'address', 'phone', 'logo', 'imgLogo', 'status', 'date', 'username', 'password', 'email'],
+            self::SCENARIO_SIGNUP => ['userId', 'name', 'director_name', 'regionId', 'cityId', 'address', 'phone', 'logo', 'imgLogo', 'status', 'date'],
             self::SCENARIO_CABINET => ['name', 'director_name', 'regionId', 'cityId', 'address', 'phone', 'imgLogo', 'logo'],
         ];
     }
