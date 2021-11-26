@@ -31,7 +31,6 @@ $name = 'name_' . Yii::$app->language;
 </section>
 <div class="vacancy-index">
 
-
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -39,15 +38,13 @@ $name = 'name_' . Yii::$app->language;
                     <div class="container">
                         <div class="row mb-5 justify-content-center">
                             <div class="col-md-7 text-center">
-                                <h2 class="section-title mb-2"><?= $dataProvider->count ?> Related Jobs</h2>
+                                <h2 class="section-title mb-2"><?= $dataProvider->totalCount ?> Related Jobs</h2>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-3">
                                 <?php echo $this->render('_vacancy-search', ['model' => $searchModel]) ?>
                             </div>
-
                             <div class="col-md-9">
                                 <ul class="job-listings mb-5">
                                     <?php foreach ($dataProvider->models as $key => $item): ?>
@@ -71,11 +68,8 @@ $name = 'name_' . Yii::$app->language;
                                                     <span class="badge badge-danger"><?= $item->jobType ? $item->jobType->$name : 'Kiritilmagan' ?></span>
                                                 </div>
                                             </div>
-
                                         </li>
-
                                     <?php endforeach ?>
-
                                 </ul>
                             </div>
                         </div>
@@ -83,24 +77,29 @@ $name = 'name_' . Yii::$app->language;
                             <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
                                 <?php
 
-                                $begin = $pagination->getPage() * $pagination->pageSize + 1;
-                                $end = $begin + count($model) - 1;
-                                if ($begin > $end) {
-                                    $begin = $end;
-                                }
-                                $current_page = $pagination->getPage();
-                                $page = $pagination->getPage() + 1;
-                                $pageCount = $pagination->pageCount;
+                                    $begin = $dataProvider->pagination->getPage() * $dataProvider->pagination->pageSize + 1;
+
+                                    //vd($dataProvider->pagination->pageSize);
+                                    $end = $begin + $dataProvider->pagination->pageSize - 1;
+                                    if ($begin > $end) {
+                                        $begin = $end;
+                                    }
+                                    if ($end > $dataProvider->pagination->totalCount){
+                                        $end = $dataProvider->pagination->totalCount;
+                                    }
+                                    $current_page = $dataProvider->pagination->getPage();
+                                    $page = $dataProvider->pagination->getPage() + 1;
+                                    $pageCount = $dataProvider->pagination->pageCount;
 
 
-                                $summary = Yii::t('yii', 'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{item} other{items}}.', [
-                                    'begin' => $begin,
-                                    'end' => $end,
-                                    'count' => $pagination->totalCount,
-                                    'totalCount' => $pagination->totalCount,
-                                    'page' => $page,
-                                    'pageCount' => $pageCount,
-                                ])
+                                    $summary = Yii::t('yii', 'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{item} other{items}}.', [
+                                        'begin' => $begin,
+                                        'end' => $end,
+                                        'count' => $pagination->totalCount,
+                                        'totalCount' => $pagination->totalCount,
+                                        'page' => $page,
+                                        'pageCount' => $pageCount,
+                                    ]);
                                 ?>
                                 <span><?= $summary ?></span>
                             </div>
@@ -108,7 +107,7 @@ $name = 'name_' . Yii::$app->language;
 
                             <div class="col-md-6 text-center text-md-right">
                                 <?= LinkPager::widget([
-                                    'pagination' => $pagination,
+                                    'pagination' => $dataProvider->pagination,
                                     'options' => ['class' => 'custom-pagination ml-auto d-flex align-items-center justify-content-end nav'],
                                     'pageCssClass' => 'mr-2',
                                     'activePageCssClass' => 'active-page',

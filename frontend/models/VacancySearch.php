@@ -14,11 +14,15 @@ class VacancySearch extends Vacancy
     /**
      * {@inheritdoc}
      */
+
+    public $from_salary;
+    public $end_salary;
+
     public function rules()
     {
         return [
             [['id', 'company_id', 'user_id', 'profession_id', 'job_type_id', 'region_id', 'city_id', 'count_vacancy', 'gender', 'experience', 'views', 'status'], 'integer'],
-            [['description_uz', 'description_ru', 'description_en', 'description_oz', 'image', 'telegram', 'address', 'deadline', 'created_at', 'updated_at'], 'safe'],
+            [['description_uz', 'description_ru', 'description_en', 'description_oz', 'image', 'telegram', 'address', 'deadline', 'created_at', 'updated_at', 'from_salary', 'end_salary'], 'safe'],
             [['salary'], 'number'],
         ];
     }
@@ -77,7 +81,8 @@ class VacancySearch extends Vacancy
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'description_uz', $this->description_uz])
+        $query->andFilterWhere(['between', 'salary', $this->from_salary ? $this->from_salary : 0, $this->end_salary])
+            ->andFilterWhere(['like', 'description_uz', $this->description_uz])
             ->andFilterWhere(['like', 'description_ru', $this->description_ru])
             ->andFilterWhere(['like', 'description_en', $this->description_en])
             ->andFilterWhere(['like', 'description_oz', $this->description_oz])
