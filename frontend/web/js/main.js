@@ -69,3 +69,21 @@ $('#vacancy-region_id').change(function(){
         }
     });
 });
+// $('#vacancysearch-region_id').change(function(){
+//  //   $("body").on('change', '#vacancysearch-region_id', function(){ 
+//     let id = $(this).val();
+//     alert(id);
+//     $.ajax({
+//         method: "get",
+//         url: "/ajax/cities",
+//         data: { id: id},
+//         success: function(data) {
+//             $('#vacancysearch-city_id').html(data);
+//         },
+//         error: function (jqXHR, textStatus, errorThrown) {
+//             console.log(jqXHR);
+//             console.log(textStatus);
+//             console.log(errorThrown);
+//         }
+//     });
+// });

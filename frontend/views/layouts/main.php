@@ -62,7 +62,24 @@ AppAsset::register($this);
 <script src="/jobboard/js/bootstrap-select.min.js"></script>
 
 <script src="/jobboard/js/custom.js"></script>
-
+<script>
+    $("body").on('change', '#vacancysearch-region_id', function(){ 
+    let id = $(this).val();
+    $.ajax({
+        method: "get",
+        url: "/ajax/cities",
+        data: { id: id},
+        success: function(data) {
+            $('#vacancysearch-city_id').html(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        }
+    });
+});
+</script>
 
 <?php $this->endBody() ?>
 </body>

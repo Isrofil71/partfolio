@@ -76,9 +76,9 @@ $name = 'name_' . Yii::$app->language;
                         <div class="row pagination-wrap">
                             <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
                                 <?php
-
+                                    
                                     $begin = $dataProvider->pagination->getPage() * $dataProvider->pagination->pageSize + 1;
-
+                                    
                                     //vd($dataProvider->pagination->pageSize);
                                     $end = $begin + $dataProvider->pagination->pageSize - 1;
                                     if ($begin > $end) {

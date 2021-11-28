@@ -45,27 +45,11 @@ $city = [];
         ],
     ]);
     ?>
-
-    <?= $form->field($model, 'region_id')->widget(Select2::classname(), [
-        'data' => $region,
-        'language' => 'uz',
-        'options' => ['placeholder' => 'Select region ...'],
-        'pluginOptions' => [
-            'label' => false,
-            'allowClear' => true
-        ],
-    ]);
+ 
+    <?= $form->field($model, 'region_id')->dropDownList($region, ['prompt' => 'Select a gender'])
     ?>
 
-    <?= $form->field($model, 'city_id')->widget(Select2::classname(), [
-        'data' => $city,
-        'language' => 'uz',
-        'options' => ['placeholder' => 'Select a job type ...'],
-        'pluginOptions' => [
-            'label' => false,
-            'allowClear' => true
-        ],
-    ]);
+<?= $form->field($model, 'city_id')->dropDownList($city, ['prompt' => 'Select a gender'])
     ?>
 
     <?= $form->field($model, 'gender')->dropDownList($gender, ['prompt' => 'Select a gender']) ?>
@@ -89,3 +73,4 @@ $city = [];
     <?php ActiveForm::end(); ?>
 
 </div>
+
