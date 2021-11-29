@@ -1,85 +1,88 @@
+
 <?php
 
 /* @var $this yii\web\View */
 
-$this->title = 'Isrofil`s partfolio';
-
-use yii\helpers\Html;
+use common\widgets\VacancyWidget;
+use kartik\select2\Select2;
+use yii\bootstrap4\Carousel;
 use yii\widgets\ActiveForm;
 
-
-$region = \common\models\Region::selectList();
+$this->title = 'Isrofil`s partfolio';
+$name = 'name_' . Yii::$app->language;
 ?>
 
-<style>
-    #container {
-    height: 500px;
-    min-width: 310px;
-    max-width: 800px;
-    margin: 0 auto;
-}
+<section class="home-section section-hero overlay bg-image" style="background-image: url('/jobboard/images/hero_1.jpg');" id="home-section">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-12">
+                <div class="mb-5 text-center">
+                    <h1 class="text-white font-weight-bold">The Easiest Way To Get Your Dream Job</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate est, consequuntur perferendis.</p>
+                </div>
 
-.loading {
-    margin-top: 10em;
-    text-align: center;
-    color: gray;
-}
-</style>
-<!-- HOME -->
-<?php $form = ActiveForm::begin([
-        'action' => ['list'],
-        'method' => 'get',
-        'options' => [
-            'data-pjax' => 1
-        ],
-    ]); ?>
-<section class="home-section section-hero overlay bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
+                <?php $form = ActiveForm::begin([
+                    'action' => ['list'],
+                    'method' => 'get',
+                    'options' => [
+                        'data-pjax' => 1
+                    ],
+                ]); ?>
+                    <div class="row mb-5">
 
-<div class="container">
-  <div class="row align-items-center justify-content-center">
-    <div class="col-md-12">
-      <div class="mb-5 text-center">
-        <h1 class="text-white font-weight-bold">The Easiest Way To Get Your Dream Job</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate est, consequuntur perferendis.</p>
-      </div>
-      <form method="post" class="search-jobs-form">
-        <div class="row mb-5">
-          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-            <input type="text" class="form-control form-control-lg" placeholder="Job title, Company...">
-          </div>
-          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-          <?= $form->field($model, 'region_id')->dropDownList($region, ['prompt' => 'Select region'])
-         ?>
-          </div>
-          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-            <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
-              <option>Part Time</option>
-              <option>Full Time</option>
-            </select>
-          </div>
-          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-            <button type="submit" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
-          </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                        <?= $form->field($searchModel, 'company_id')->dropDownList([], ['prompt' => '---'])->label(false); ?>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                            <?= $form->field($searchModel, 'region_id')->widget(Select2::classname(), [
+                                'data' => $region,
+                                'size' => 'lg',
+                                'language' => 'uz',
+                                'options' => ['placeholder' => 'Select a region ...'],
+                                'pluginOptions' => [
+                                    'label' => false,
+                                    'allowClear' => true
+                                ],
+                            ])->label(false);
+                            ?>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                            <?= $form->field($searchModel, 'job_type_id')->widget(Select2::classname(), [
+                                'data' => $job_type,
+                                'size' => 'lg',
+                                'language' => 'uz',
+                                'options' => ['placeholder' => 'Select a job type ...'],
+                                'pluginOptions' => [
+                                    'label' => false,
+                                    'allowClear' => true
+                                ],
+                            ])->label(false);
+                            ?>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 popular-keywords">
+                            <h3>Trending Keywords:</h3>
+                            <ul class="keywords list-unstyled m-0 p-0">
+                                <li><a href="/vacancy/list?VacancySearch%5Bprofession_id%5D=50" class="">Bugalter</a></li>
+                                <li><a href="/vacancy/list?VacancySearch%5Bprofession_id%5D=51" class="">Dasturchi</a></li>
+                                <li><a href="/vacancy/list?VacancySearch%5Bprofession_id%5D=53" class="">Web Dasturchi</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                <?php ActiveForm::end(); ?>               
+            </div>
         </div>
-        <div class="row">
-          <div class="col-md-12 popular-keywords">
-            <h3>Trending Keywords:</h3>
-            <ul class="keywords list-unstyled m-0 p-0">
-              <li><a href="#" class="">UI Designer</a></li>
-              <li><a href="#" class="">Python</a></li>
-              <li><a href="#" class="">Developer</a></li>
-            </ul>
-          </div>
-        </div>
-      </form>
     </div>
-  </div>
-</div>
 
-<a href="#next" class="scroll-button smoothscroll">
-  <span class=" icon-keyboard_arrow_down"></span>
-</a>
-<?php ActiveForm::end(); ?>
+    <a href="#next" class="scroll-button smoothscroll">
+        <span class=" icon-keyboard_arrow_down"></span>
+    </a>
+
 </section>
 <section class="site-section py-4">
     <div class="container">
@@ -208,3 +211,46 @@ $region = \common\models\Region::selectList();
         });
     </script>
 </section>
+
+<?php ob_start(); ?>
+
+$(function(){
+    $('#vacancysearch-company_id').select2({
+        ajax: {
+            url: '/ajax/company',
+            data: function (params) {
+                return {
+                    q: params.term
+                };
+            },
+            dataType: 'json'
+            // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+        },
+        minimumInputLength: 3,
+        formatInputTooShort: function(term, minLength){
+            return 'Сўз 3 та ҳарфдан кўп бўлиши керак';
+        },
+        placeholder: 'Search',
+        formatSearching: 'Қидириш...',
+        formatNoMatches: 'Топилмади'
+    });
+});
+
+<?php $script = ob_get_clean();
+$this->registerJs($script);
+?>
+
+<style>
+    #container {
+    height: 500px;
+    min-width: 310px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.loading {
+    margin-top: 10em;
+    text-align: center;
+    color: gray;
+}
+</style>

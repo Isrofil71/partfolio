@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "company".
@@ -104,6 +105,10 @@ class Company extends \yii\db\ActiveRecord
     public function getCity() //Cityni qaniqlash
     {
         return $this->hasOne(City::className(), ['id' => 'cityId']);
+    }
+
+    public static function selectList() {
+        return ArrayHelper::map(self::find()->all(), 'id', 'name');
     }
 
     public function upload()

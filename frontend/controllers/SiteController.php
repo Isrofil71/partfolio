@@ -4,24 +4,27 @@ namespace frontend\controllers;
 
 use common\models\Appeals;
 use common\models\Company;
+use common\models\JobType;
 use common\models\Partners;
+use common\models\Region;
 use common\models\Statistic;
-use common\models\Worker;
 use common\models\Vacancy;
+use common\models\Worker;
+use frontend\models\Report;
 use frontend\models\ResendVerificationEmailForm;
+use frontend\models\VacancySearch;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\data\Pagination;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\data\Pagination;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use frontend\models\Report;
 use frontend\models\ContactForm;
 use yii\web\UploadedFile;
 
@@ -84,10 +87,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $vacancys = Vacancy::find()->limit(8)->all();
         $partners = Partners::find()->where(['status' => 1])->orderBy(['order' => SORT_ASC])->all();
         $statistics = Statistic::findOne(1);
-        $result_maps = Report::MapJoin();
+        $vacancys = Vacancy::find()->limit(8)->all();
+        $region = Region::selectList();
+        $company = Company::selectList();
+        $job_type = JobType::selectList();
 
         $query = Vacancy::find();
 
@@ -97,13 +102,21 @@ class SiteController extends Controller
             'totalCount' => $count,
             'pageSize' => 4
         ]);
+
+        $results_map = Report::MapJoin();
+
+        $searchModel = new VacancySearch();
         
         return $this->render('index', [
             'partners' => $partners,
             'statistics' => $statistics,
             'vacancys' => $vacancys,
             'pagination' => $pagination,
-            'result_maps' => $result_maps
+            'results_map' => $results_map,
+            'region' => $region,
+            'company' => $company,
+            'job_type' => $job_type,
+            'searchModel' => $searchModel,
         ]);
     }
 
@@ -197,19 +210,18 @@ class SiteController extends Controller
         $company = new Company();
         $company->scenario = Company::SCENARIO_SIGNUP;
         if ($company->load(Yii::$app->request->post())) {
-            
             $user->username = $company->username;
             $user->password = $company->password;
             $user->email = $company->email;
-//            $user->status = 10;
-           
+            $user->status = 9;
             $user->role = 'company';
-
+           
             if ($user = $user->signup()){
                 if (UploadedFile::getInstance($company, 'imgLogo')){
                     $company->imgLogo = UploadedFile::getInstance($company, 'imgLogo');
                     $company->logo = 'img/company/' . $company->imgLogo->baseName . '.' . $company->imgLogo->extension;
                     $company->userId = $user->id;
+
                     if ($company->upload() && $company->save()){
                         Yii::$app->session->setFlash('success', 'Sizning korxonzngiz muvoffaqqiyatli qo`shildi.');
                     }else{
@@ -217,10 +229,7 @@ class SiteController extends Controller
                     }
                     return $this->refresh();
                 }
-            }else{
-                
-            }
-            
+            }            
         }
 
         return $this->render('signup', [
