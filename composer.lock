@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d17148d7f911017536f338c17e82509",
+    "content-hash": "b04b70692658fe1b061e17156daf9e98",
     "packages": [
         {
             "name": "2amigos/qrcode-library",
@@ -286,6 +286,54 @@
             "license": [
                 "MIT"
             ]
+        },
+        {
+            "name": "bsadnu/yii2-googlecharts",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bsadnu/yii2-googlecharts.git",
+                "reference": "05e7a5c3cf6e6e7e7c337f3775b9ec87ed287efe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bsadnu/yii2-googlecharts/zipball/05e7a5c3cf6e6e7e7c337f3775b9ec87ed287efe",
+                "reference": "05e7a5c3cf6e6e7e7c337f3775b9ec87ed287efe",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "bsadnu\\googlecharts\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Stanislav Bannikov",
+                    "email": "bsadnu@gmail.com"
+                }
+            ],
+            "description": "Google Charts Extension for Yii 2 framework",
+            "keywords": [
+                "chart",
+                "charts",
+                "extension",
+                "google",
+                "googlecharts",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/bsadnu/yii2-googlecharts/issues",
+                "source": "https://github.com/bsadnu/yii2-googlecharts/tree/master"
+            },
+            "time": "2017-05-30T08:25:18+00:00"
         },
         {
             "name": "cebe/markdown",

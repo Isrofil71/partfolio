@@ -25,7 +25,7 @@ $city = [];
         ],
     ]); ?>
 
-    <?= $   ->field($model, 'profession_id')->widget(Select2::classname(), [
+    <?= $form->field($model, 'profession_id')->widget(Select2::classname(), [
         'data' => $profession,
         'language' => 'de',
         'options' => ['placeholder' => 'Select a profession ...'],

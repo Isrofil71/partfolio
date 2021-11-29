@@ -11,6 +11,20 @@ use yii\widgets\ActiveForm;
 $this->title = 'Isrofil`s partfolio';
 $name = 'name_' . Yii::$app->language;
 ?>
+<style>
+    #container {
+    height: 500px;
+    min-width: 310px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.loading {
+    margin-top: 10em;
+    text-align: center;
+    color: gray;
+}
+</style>
 
 <section class="home-section section-hero overlay bg-image" style="background-image: url('/jobboard/images/hero_1.jpg');" id="home-section">
     <div class="container">
@@ -22,7 +36,7 @@ $name = 'name_' . Yii::$app->language;
                 </div>
 
                 <?php $form = ActiveForm::begin([
-                    'action' => ['list'],
+                    'action' => ['/vacancy/list'],
                     'method' => 'get',
                     'options' => [
                         'data-pjax' => 1
@@ -156,10 +170,10 @@ $name = 'name_' . Yii::$app->language;
     <script src="https://code.highcharts.com/mapdata/countries/uz/uz-all.js"></script>
 
     <div id="statistic-map"></div>
-
+             
     <script>
-        var data = <?= $result_maps ?>;
-        
+        var data = <?= $results_map ?>;
+
         // Create the chart
         Highcharts.mapChart('statistic-map', {
             chart: {
@@ -228,7 +242,7 @@ $(function(){
         },
         minimumInputLength: 3,
         formatInputTooShort: function(term, minLength){
-            return 'Сўз 3 та ҳарфдан кўп бўлиши керак';
+            return "So`z uchta harfdan ko`p bo`lishi";
         },
         placeholder: 'Search',
         formatSearching: 'Қидириш...',
@@ -240,17 +254,3 @@ $(function(){
 $this->registerJs($script);
 ?>
 
-<style>
-    #container {
-    height: 500px;
-    min-width: 310px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.loading {
-    margin-top: 10em;
-    text-align: center;
-    color: gray;
-}
-</style>

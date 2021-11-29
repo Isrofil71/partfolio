@@ -54,6 +54,7 @@
         "2amigos/yii2-tinymce-widget": "~1.1",
         "wbraganca/yii2-dynamicform": "*",
         "phpoffice/phpexcel": "^1.8",
-        "yii2tech/crontab": "^1.0"
+        "yii2tech/crontab": "^1.0",
+        "bsadnu/yii2-googlecharts": "*"
     }
 }
