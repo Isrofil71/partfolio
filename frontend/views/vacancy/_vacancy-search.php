@@ -25,7 +25,7 @@ $city = [];
         ],
     ]); ?>
 
-    <?= $form->field($model, 'profession_id')->widget(Select2::classname(), [
+    <?= $   ->field($model, 'profession_id')->widget(Select2::classname(), [
         'data' => $profession,
         'language' => 'de',
         'options' => ['placeholder' => 'Select a profession ...'],
@@ -46,10 +46,10 @@ $city = [];
     ]);
     ?>
  
-    <?= $form->field($model, 'region_id')->dropDownList($region, ['prompt' => 'Select a gender'])
+    <?= $form->field($model, 'region_id')->dropDownList($region, ['prompt' => 'Select region'])
     ?>
 
-<?= $form->field($model, 'city_id')->dropDownList($city, ['prompt' => 'Select a gender'])
+<?= $form->field($model, 'city_id')->dropDownList($city, ['prompt' => 'Select city'])
     ?>
 
     <?= $form->field($model, 'gender')->dropDownList($gender, ['prompt' => 'Select a gender']) ?>

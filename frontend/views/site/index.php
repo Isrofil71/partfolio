@@ -3,6 +3,12 @@
 /* @var $this yii\web\View */
 
 $this->title = 'Isrofil`s partfolio';
+
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
+
+$region = \common\models\Region::selectList();
 ?>
 
 <style>
@@ -20,6 +26,13 @@ $this->title = 'Isrofil`s partfolio';
 }
 </style>
 <!-- HOME -->
+<?php $form = ActiveForm::begin([
+        'action' => ['list'],
+        'method' => 'get',
+        'options' => [
+            'data-pjax' => 1
+        ],
+    ]); ?>
 <section class="home-section section-hero overlay bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
 
 <div class="container">
@@ -35,17 +48,8 @@ $this->title = 'Isrofil`s partfolio';
             <input type="text" class="form-control form-control-lg" placeholder="Job title, Company...">
           </div>
           <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-            <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Region">
-              <option>Anywhere</option>
-              <option>San Francisco</option>
-              <option>Palo Alto</option>
-              <option>New York</option>
-              <option>Manhattan</option>
-              <option>Ontario</option>
-              <option>Toronto</option>
-              <option>Kansas</option>
-              <option>Mountain View</option>
-            </select>
+          <?= $form->field($model, 'region_id')->dropDownList($region, ['prompt' => 'Select region'])
+         ?>
           </div>
           <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
             <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Job Type">
@@ -75,7 +79,7 @@ $this->title = 'Isrofil`s partfolio';
 <a href="#next" class="scroll-button smoothscroll">
   <span class=" icon-keyboard_arrow_down"></span>
 </a>
-
+<?php ActiveForm::end(); ?>
 </section>
 <section class="site-section py-4">
     <div class="container">
