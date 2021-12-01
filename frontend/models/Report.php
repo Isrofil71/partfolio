@@ -83,29 +83,57 @@ class Report extends Model
                 "vacancy_value" => isset($vacancy_items[$region_id]) ? $vacancy_items[$region_id] : 0
             ];
         }
-        /*
-            [
-                [
-                    "hc-key": "uz-qr",
-                    "resume_value": 528,
-                    "company_value": 2993,
-                    "vacancy_value": "1451"
-                ],
-                [
-                    "hc-key": "uz-bu",
-                    "resume_value": 418,
-                    "company_value": 3562,
-                    "vacancy_value": "4383"
-                ],
-                [
-                    "hc-key": "uz-sa",
-                    "resume_value": 536,
-                    "company_value": 4211,
-                    "vacancy_value": "1767"
-                ]
-            ]
-        */
+        
         return json_encode($result);
+
+    }
+    public static function generalChart()
+    {
+        $company = (new Query())
+        ->select('region.id as region_id, count(company.regionId) as company')
+        ->from('company')
+        ->innerJoin('region', 'company.regionId = region.id')
+        ->groupBy('region.id')
+        ->all();
+
+    $company_items = ArrayHelper::map($company, 'region_id', 'company');
+
+    $vacancy = (new Query())
+            ->select('region.id as region_id, count(vacancy.region_id) as vacancy')
+            ->from('vacancy')
+            ->innerJoin('region', 'vacancy.region_id = region.id')
+            ->groupBy('region.id')
+            ->all();
+
+    $vacancy_items = ArrayHelper::map($vacancy, 'region_id', 'vacancy');
+
+    $resume = (new Query())
+            ->select('region.id as region_id, count(*) as resume')
+            ->from('worker')
+            ->innerJoin('region', 'region.id = worker.regionId')
+            ->groupBy('region.id')
+            ->all();
+
+    $resume_items = ArrayHelper::map($resume, 'region_id', 'resume');
+    
+    $regionName = (new Query())
+        ->select('id, nameEn')
+        ->from('region')
+        ->all();
+
+    $result[] = ['Region', 'Resume', 'Company', 'Vacancy'];
+
+    foreach ($regionName as $key =>$region) {
+        $result[] = [
+            $region['nameEn'],
+            isset($resume_items[$key]) ? intval($resume_items[$key]): 0,
+            isset($company_items[$key]) ? intval($company_items[$key]): 0,
+            isset($vacancy_items[$key]) ? intval($vacancy_items[$key]): 0
+
+        ];
+    }
+    return $result;
+
 
     }
 }

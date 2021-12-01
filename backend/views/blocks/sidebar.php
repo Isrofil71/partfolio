@@ -74,6 +74,10 @@ use yii\helpers\Html;
                         'label' => Html::tag('i', '', ['class'=>'nav-icon fas fa-table']).'Millati',
                         'url' => ['/nationality/index']
                     ],
+                    [
+                        'label' => Html::tag('i', '', ['class'=>'nav-icon fas fa-table']).'Chart',
+                        'url' => ['/site/chart']
+                    ],
 
                 ];
 
