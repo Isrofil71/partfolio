@@ -134,7 +134,7 @@ class VacancyController extends Controller
     {
 
         $this->layout = 'main';
-
+ 
         $searchModel = new VacancySearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 

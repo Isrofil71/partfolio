@@ -24,7 +24,7 @@ return [
     'components' => [
 
         'request' => [
-//            'baseUrl' => '/admin',
+            'baseUrl' => '/admin',
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [

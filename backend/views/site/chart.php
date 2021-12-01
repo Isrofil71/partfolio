@@ -13,7 +13,7 @@ use bsadu\googlecharts\ColumnChart;
 
  $this->title = "Starter Page";
  $this->params['breadcrumbs'] = [['label' => $this->title]];
- $region_list = (new \yii\db\Query())->select('nameUz')->from('region')->all();
+ $region_list = (new \yii\db\Query())->select('name_uz')->from('region')->all();
 
 ?>
 <div class="container-fluid">

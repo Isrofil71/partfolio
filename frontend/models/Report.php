@@ -110,14 +110,15 @@ class Report extends Model
     $resume = (new Query())
             ->select('region.id as region_id, count(*) as resume')
             ->from('worker')
-            ->innerJoin('region', 'region.id = worker.regionId')
+            ->innerJoin('user', 'user.id = worker.userId')
+            ->innerJoin('region', 'region.id = user.regionId')
             ->groupBy('region.id')
             ->all();
 
     $resume_items = ArrayHelper::map($resume, 'region_id', 'resume');
     
     $regionName = (new Query())
-        ->select('id, nameEn')
+        ->select('id, name_en')
         ->from('region')
         ->all();
 
@@ -125,7 +126,7 @@ class Report extends Model
 
     foreach ($regionName as $key =>$region) {
         $result[] = [
-            $region['nameEn'],
+            $region['name_en'],
             isset($resume_items[$key]) ? intval($resume_items[$key]): 0,
             isset($company_items[$key]) ? intval($company_items[$key]): 0,
             isset($vacancy_items[$key]) ? intval($vacancy_items[$key]): 0

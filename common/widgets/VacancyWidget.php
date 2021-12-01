@@ -32,7 +32,7 @@ class VacancyWidget extends Widget
         [
             'pagination' => $pagination,
             'vacancys' => $vacancys
-        ]);
+        ]); 
     }
 }
 

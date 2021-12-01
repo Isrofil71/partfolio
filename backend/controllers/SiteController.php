@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
+use frontend\models\Report;
 
 /**
  * Site controller
@@ -24,7 +25,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error', 'chart'],
                         'allow' => true,
                     ],
                     [
@@ -66,7 +67,11 @@ class SiteController extends Controller
     }
     public function actionChart()
     {
-        return $this->render('chart');
+        $generalChart = Report::generalChart();
+        return $this->render(
+            'chart',[
+            'generalChart' => $generalChart
+            ]);
     }
 
     /**
