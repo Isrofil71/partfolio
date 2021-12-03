@@ -9,7 +9,7 @@ class Vacancy extends \common\models\Vacancy {
                 return $model->profession ? $model->profession->name_uz : " ";
             },
             'image' => function($model){
-                return "http://isrofil.smartdesign.uz/frontend/web/img/vacancy/" . $model->image;
+                return "http://isrofil.smartdesign.uz/" . $model->image;
             },
             'company' =>function($model){
                 return $model->company ? $model->company->name : " ";
