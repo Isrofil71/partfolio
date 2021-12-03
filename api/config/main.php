@@ -14,7 +14,7 @@ return [
     'modules' => [],
     'components' => [
         'request' => [
-            'baseUrl' => '/admin',
+         //   'baseUrl' => '/admin',
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
@@ -40,8 +40,12 @@ return [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
-            ],
+                ['class' => 'yii\rest\UrlRule', 'controller' => [
+                    'user',
+                    'vacancy',
+                    ]
+                ],
+            ]
         ]
 
     ],
