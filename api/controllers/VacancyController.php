@@ -5,6 +5,8 @@
     
     class VacancyController extends ActiveController
     {
-        public $modelClass = 'common\models\Vacancy';
+        public $modelClass = 'api\models\Vacancy';
+
+        
     }
 ?>
