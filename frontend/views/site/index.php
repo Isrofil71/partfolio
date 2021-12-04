@@ -123,6 +123,11 @@ $name = 'name_' . Yii::$app->language;
 </section>
 
 
+<section class="section-hero overlay inner-page bg-image">
+<div class="container" id="vacancy-list">
+
+</div>
+</section>
 <!-- STATISTICS -->
 <section class="py-5 bg-image overlay-primary fixed overlay" id="next" style="background-image:url(images/xhero_1.jpg.pagespeed.ic.V0QtS-940g.webp)">
     <div class="container">
