@@ -95,8 +95,8 @@ $name = 'name_' . Yii::$app->language;
                                     $summary = Yii::t('yii', 'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{item} other{items}}.', [
                                         'begin' => $begin,
                                         'end' => $end,
-                                        'count' => $pagination->totalCount,
-                                        'totalCount' => $pagination->totalCount,
+                                        'count' => $dataProvider->pagination->totalCount,
+                                        'totalCount' => $dataProvider->pagination->totalCount,
                                         'page' => $page,
                                         'pageCount' => $pageCount,
                                     ]);
