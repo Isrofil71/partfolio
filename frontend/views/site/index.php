@@ -123,11 +123,20 @@ $name = 'name_' . Yii::$app->language;
 </section>
 
 
-<section class="section-hero overlay inner-page bg-image">
-<div class="container" id="vacancy-list">
-
-</div>
+<section class="site-section" id="next">
+    <div class="container">
+        <div class="row mb-5 justify-content-center">
+            <div class="col-md-7 text-center">
+                <h2 class="section-title mb-2">API <a href="http://api3.smartdesign.uz">Sardor aka </a> saytidan katta oylikli vakansiyalar</h2>
+            </div>
+        </div>
+        <ul class="job-listings mb-5" id="vacansies_sardor"></ul>
+        <p class="text-center"><a href="http://api1.smartdesign.uz/vacancy/list" class="btn btn-success text-white">Show more</a></p>
+    </div>
 </section>
+
+
+
 <!-- STATISTICS -->
 <section class="py-5 bg-image overlay-primary fixed overlay" id="next" style="background-image:url(images/xhero_1.jpg.pagespeed.ic.V0QtS-940g.webp)">
     <div class="container">

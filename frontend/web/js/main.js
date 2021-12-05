@@ -70,7 +70,7 @@ $('#vacancy-region_id').change(function(){
     });
 });
 $.ajax({
-    url: 'vacancies?access-token=WI33-B56NxXXFjsXPjnR5EnsK_5f5ZIt',
+    url: 'http://api1.smartdesign.uz/vacancies?access-token=WI33-B56NxXXFjsXPjnR5EnsK_5f5ZIt',
     type: 'GET',
     dataType: 'json',
     success: function (data) {
@@ -105,6 +105,6 @@ $.ajax({
             text += "</li>";
         }
  
-        $('#vacancy-list').html(text);
+        $('#vacansies_sardor').html(text);
     }
  });
