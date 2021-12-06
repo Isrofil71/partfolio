@@ -2,7 +2,8 @@
     namespace api\controllers;
 
     use yii\rest\ActiveController;
-    
+    use yii\data\ActiveDataProvider;
+    use api\models\Vacancy;
     class VacancyController extends MyController
     {
         public $modelClass = 'api\models\Vacancy';
