@@ -24,6 +24,7 @@ use yii\web\IdentityInterface;
  * @property integer $regionId
  * @property integer $cityId
  * @property string $password write-only password
+ * @property string $token
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -75,7 +76,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        return static::findOne(['token' => $token]);
     }
 
     /**

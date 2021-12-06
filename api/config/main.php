@@ -7,25 +7,36 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-api',
+    'id' => 'app-restapi',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'api\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module',
+            // your other grid module settings
+        ],
+        'gridviewKrajee' =>  [
+            'class' => '\kartik\grid\Module',
+            // your other grid module settings
+        ]
+    ],
     'components' => [
         'request' => [
-         //   'baseUrl' => '/admin',
+//            'baseUrl' => '/admin',
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+            'enableSession' => false,
+            'loginUrl' => null,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
-        'session' => [
-            // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
-        ],
+//        'session' => [
+//            // this is the name of the session cookie used for login on the backend
+//            'name' => 'advanced-backend',
+//        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -35,19 +46,24 @@ return [
                 ],
             ],
         ],
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => [
-                    'user',
-                    'vacancy',
+                'auth' => 'site/login',
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => [
+                        'user',
+                        'vacancy',
                     ]
                 ],
-            ]
+            ],
         ]
 
     ],
     'params' => $params,
+//    'defaultRoute' => 'region/index',
 ];
