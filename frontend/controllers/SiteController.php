@@ -133,9 +133,12 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            vd($this->findModel($model));
             if ($this->findModel($model->user->id)){
                 return $this->redirect('/dashboard/');
+                
             }else{
+                
                 return  $this->redirect('/dashboard/worker');
             }
 

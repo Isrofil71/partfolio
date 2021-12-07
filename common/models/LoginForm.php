@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use common\models\User;
 use Yii;
 use yii\base\Model;
 
@@ -57,12 +56,8 @@ class LoginForm extends Model
      */
     public function login()
     {
-        $user = $this->getUser();
         if ($this->validate()) {
-            $token = Yii::$app->security->generateRandomString();
-            $user->token = $token;
-
-            return $user->save() ? $token : null;
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
         
         return false;
