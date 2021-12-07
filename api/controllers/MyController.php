@@ -38,14 +38,14 @@ class MyController extends ActiveController
             ],
         ];
 
-        $behaviors['authenticator'] = [
-            'class' => CompositeAuth::class,
-            'authMethods' => [
-                HttpBasicAuth::class,
-                HttpBearerAuth::class,
-                QueryParamAuth::class,
-            ],
-        ];
+        // $behaviors['authenticator'] = [
+        //     'class' => CompositeAuth::class,
+        //     'authMethods' => [
+        //         HttpBasicAuth::class,
+        //         HttpBearerAuth::class,
+        //         QueryParamAuth::class,
+        //     ],
+        // ];
 
         return $behaviors;
     }

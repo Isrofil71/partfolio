@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="vacancy-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+    
     <p>
         <?= Html::a(Yii::t('app', 'Create Vacancy'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
